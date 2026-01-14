@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microbiology Exam Mode</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:20px;
+}
+h1 { text-align:center; color:#2c3e50; }
+#timer, #scoreBox {
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  margin:10px 0;
+}
+.question {
+  background:white;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:8px;
+}
+label { display:block; margin:6px 0; cursor:pointer; }
+button {
+  padding:12px 20px;
+  font-size:16px;
+  background:#2c3e50;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+button:hover { background:#34495e; }
+.correct { color:green; font-weight:bold; }
+.incorrect { color:red; }
+</style>
+</head>
+
+<body>
+
+<h1>📝 Microbiology Exam Mode</h1>
+<div id="timer">⏱ Time Left: 10:00</div>
+<div id="scoreBox"></div>
+
+<div id="quiz"></div>
+
+<button onclick="submitExam()">Submit Exam</button>
+
+<script>
+// 🔹 ADD YOUR QUESTIONS HERE (can be copied from batches)
+const allQuestions = [
+  {q:"Filamentous bacteria include:", o:["Mycobacterium","Vibrio","Neisseria","Campylobacter"], a:0},
+  {q:"Prions are composed of:", o:["DNA","RNA","Polysaccharides","Proteins"], a:3},
+  {q:"Acid-fast bacteria are:", o:["Mycobacteria","Streptococci","Rickettsia","Mycoplasma"], a:0},
+  {q:"Ziehl–Neelsen stain is used for:", o:["Fungi","Viruses","Mycobacteria","Spirochetes"], a:2},
+  {q:"BCG vaccine is used against:", o:["Leprosy","Tuberculosis","Diphtheria","Tetanus"], a:1},
+  // 👉 You can keep adding more MCQs here
+];
+
+// 🔹 RANDOMIZE QUESTIONS
+const examQuestions = allQuestions.sort(() => 0.5 - Math.random()).slice(0, 20);
+
+const quizDiv = document.getElementById("quiz");
+
+examQuestions.forEach((q, i) => {
+  const div = document.createElement("div");
+  div.className = "question";
+  div.innerHTML = `<b>${i+1}. ${q.q}</b>`;
+  q.o.forEach((opt, idx) => {
+    div.innerHTML += `
+      <label>
+        <input type="radio" name="q${i}" value="${idx}"> ${opt}
+      </label>`;
+  });
+  quizDiv.appendChild(div);
+});
+
+// 🔹 TIMER (10 minutes)
+let time = 600;
+const timerEl = document.getElementById("timer");
+const timer = setInterval(() => {
+  let m = Math.floor(time / 60);
+  let s = time % 60;
+  timerEl.innerText = `⏱ Time Left: ${m}:${s.toString().padStart(2,'0')}`;
+  time--;
+  if (time < 0) {
+    clearInterval(timer);
+    submitExam();
+  }
+}, 1000);
+
+// 🔹 SUBMIT EXAM
+function submitExam() {
+  clearInterval(timer);
+  let score = 0;
+  examQuestions.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if (sel && parseInt(sel.value) === q.a) score++;
+  });
+  document.getElementById("scoreBox").innerText =
+    `✅ Your Score: ${score} / ${examQuestions.length}`;
+  window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>
