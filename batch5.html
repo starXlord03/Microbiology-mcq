@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 5 (Q401-500)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 5 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 5</h1>
+    <p>Questions 401 - 500</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "401) Dick test is used to :", a: ["Identify S.pyogenes", "Identify S.pneumoniae", "Identify susceptibility to scarlet fever", "Identify rheumatic fever"], c: 2},
+    {q: "402) The diagnostic test for scarlet fever is :", a: ["Dick test", "Schultz-Charlton reaction", "Widal test", "Elek test"], c: 1},
+    {q: "403) All of the following are true of S.agalactiae EXCEPT :", a: ["It is a Group A streptococcus", "It is the most common cause of neonatal meningitis", "It is bacitracin resistant", "It gives a positive CAMP test"], c: 0},
+    {q: "404) Which among the following is the most common cause of subacute bacterial endocarditis?", a: ["S.pyogenes", "S.pneumoniae", "Viridans streptococci", "Enterococci"], c: 2},
+    {q: "405) The arrangement of pneumococci is :", a: ["In chains", "In clusters", "In pairs (diplococci)", "None of the above"], c: 2},
+    {q: "406) All of the following are true about S.pneumoniae EXCEPT :", a: ["They are Gram-positive cocci", "They are bile soluble", "They are catalase positive", "They show alpha hemolysis on blood agar"], c: 2},
+    {q: "407) The most important virulence factor of S.pneumoniae is :", a: ["M protein", "Capsule", "Pneumolysin", "Autolysin"], c: 1},
+    {q: "408) Optochin sensitivity is used to differentiate S.pneumoniae from :", a: ["S.pyogenes", "Viridans streptococci", "Enterococci", "Staphylococci"], c: 1},
+    {q: "409) All of the following are true of Neisseria meningitidis EXCEPT :", a: ["They are Gram-negative diplococci", "They are oxidase positive", "They are maltose fermenters", "They are motile"], c: 3},
+    {q: "410) The most common route of infection for meningococcal meningitis is :", a: ["Fecal-oral", "Sexual contact", "Nasopharyngeal (inhalation)", "Blood transfusion"], c: 2},
+    {q: "411) Waterhouse-Friderichsen syndrome is associated with :", a: ["Gonococcal infection", "Meningococcal infection", "Pneumococcal infection", "Staphylococcal infection"], c: 1},
+    {q: "412) The medium of choice for isolation of N.gonorrhoeae is :", a: ["Blood agar", "MacConkey agar", "Thayer-Martin medium", "Loeffler's serum slope"], c: 2},
+    {q: "413) Quellung reaction is used for the identification of :", a: ["Bacterial toxins", "Bacterial capsules", "Bacterial flagella", "Bacterial spores"], c: 1},
+    {q: "414) All of the following are true of N.gonorrhoeae EXCEPT :", a: ["It causes ophthalmia neonatorum", "It is a maltose fermenter", "It is a glucose fermenter", "It is found intracellularly in pus cells"], c: 1},
+    {q: "415) The causative agent of anthrax is :", a: ["Bacillus cereus", "Bacillus anthracis", "Clostridium tetani", "Corynebacterium diphtheriae"], c: 1},
+    {q: "416) Medusa head appearance of colonies is characteristic of :", a: ["Bacillus anthracis", "Bacillus cereus", "Clostridium perfringens", "Mycobacterium tuberculosis"], c: 0},
+    {q: "417) Pustule Maligne is another name for :", a: ["Inhalation anthrax", "Cutaneous anthrax", "Intestinal anthrax", "Meningitis"], c: 1},
+    {q: "418) McFadden’s reaction is used to detect :", a: ["B.anthracis spores", "B.anthracis capsule", "B.anthracis toxin", "B.anthracis flagella"], c: 1},
+    {q: "419) Emetic type of food poisoning is caused by :", a: ["Bacillus anthracis", "Bacillus cereus", "Staphylococcus aureus", "Clostridium botulinum"], c: 1},
+    {q: "420) The arrangement of C.diphtheriae is :", a: ["Cuneiform (Chinese letter) arrangement", "In chains", "In clusters", "In pairs"], c: 0},
+    {q: "421) Babes-Ernst granules are seen in :", a: ["Bacillus anthracis", "Corynebacterium diphtheriae", "Mycobacterium leprae", "Mycobacterium tuberculosis"], c: 1},
+    {q: "422) The most important virulence factor of C.diphtheriae is :", a: ["Capsule", "Exotoxin", "Endotoxin", "Cord factor"], c: 1},
+    {q: "423) Schick test is used to :", a: ["Diagnose diphtheria", "Detect immunity to diphtheria", "Identify C.diphtheriae", "Identify diphtheria toxin"], c: 1},
+    {q: "424) The medium used for the primary isolation of C.diphtheriae is :", a: ["Blood agar", "MacConkey agar", "Loeffler's serum slope", "Lowenstein-Jensen medium"], c: 2},
+    {q: "425) Elek’s gel precipitation test is used for :", a: ["Identification of C.diphtheriae", "Toxigenicity testing of C.diphtheriae", "Staining of C.diphtheriae", "Biochemical testing of C.diphtheriae"], c: 1},
+    {q: "426) All of the following are true about M.tuberculosis EXCEPT :", a: ["It is an obligate aerobe", "It is acid-fast", "It is a fast grower", "It produces niacin"], c: 2},
+    {q: "427) The staining method used for M.tuberculosis is :", a: ["Gram staining", "Ziehl-Neelsen staining", "Albert's staining", "Neisser's staining"], c: 1},
+    {q: "428) The most common site of tuberculosis is :", a: ["Bone", "Brain", "Lungs", "Kidney"], c: 2},
+    {q: "429) Mantoux test is used to detect :", a: ["Diphtheria", "Tuberculosis infection/sensitivity", "Leprosy", "Syphilis"], c: 1},
+    {q: "430) The vaccine used for prevention of tuberculosis is :", a: ["TAB vaccine", "DTP vaccine", "BCG vaccine", "MMR vaccine"], c: 2},
+    {q: "431) All of the following are true of M.leprae EXCEPT :", a: ["It cannot be grown in artificial media", "It causes Hansen's disease", "It is more acid-fast than M.tuberculosis", "It has a predilection for skin and nerves"], c: 2},
+    {q: "432) Lepromin test is used to :", a: ["Diagnose leprosy", "Classify leprosy and assess prognosis", "Identify M.leprae", "Assess the infectivity of leprosy"], c: 1},
+    {q: "433) The causative agent of syphilis is :", a: ["Borrelia burgdorferi", "Treponema pallidum", "Leptospira interrogans", "Spirillum minor"], c: 1},
+    {q: "434) Hard chancre is the characteristic lesion of :", a: ["Primary syphilis", "Secondary syphilis", "Tertiary syphilis", "Congenital syphilis"], c: 0},
+    {q: "435) VDRL test is a :", a: ["Specific treponemal test", "Non-specific treponemal (standard) test", "Neutralization test", "Complement fixation test"], c: 1},
+    {q: "436) All of the following are non-specific treponemal tests EXCEPT :", a: ["VDRL test", "RPR test", "TPI test", "Kahn test"], c: 2},
+    {q: "437) The drug of choice for the treatment of syphilis is :", a: ["Streptomycin", "Penicillin", "Tetracycline", "Erythromycin"], c: 1},
+    {q: "438) Epidemic relapsing fever is caused by :", a: ["Borrelia recurrentis", "Borrelia duttonii", "Treponema pertenue", "Leptospira interrogans"], c: 0},
+    {q: "439) Weil’s disease is caused by :", a: ["Borrelia recurrentis", "Treponema pallidum", "Leptospira interrogans", "Coxiella burnetii"], c: 2},
+    {q: "440) All of the following are true of Enterobacteriaceae EXCEPT :", a: ["They are Gram-negative rods", "They are oxidase positive", "They reduce nitrates to nitrites", "They ferment glucose"], c: 1},
+    {q: "441) The causative agent of typhoid fever is :", a: ["Salmonella Typhi", "Salmonella Typhimurium", "Shigella dysenteriae", "Escherichia coli"], c: 0},
+    {q: "442) Widal test is used for the diagnosis of :", a: ["Typhoid fever", "Bacillary dysentery", "Cholera", "Amoebiasis"], c: 0},
+    {q: "443) Rose spots are characteristic of :", a: ["Typhoid fever", "Syphilis", "Measles", "Scarlet fever"], c: 0},
+    {q: "444) The most common cause of urinary tract infection is :", a: ["Proteus mirabilis", "Klebsiella pneumoniae", "Escherichia coli", "Pseudomonas aeruginosa"], c: 2},
+    {q: "445) Swarming growth is characteristic of :", a: ["Escherichia coli", "Klebsiella pneumoniae", "Proteus species", "Salmonella Typhi"], c: 2},
+    {q: "446) The causative agent of bacillary dysentery is :", a: ["Salmonella Typhi", "Shigella species", "Vibrio cholerae", "Escherichia coli"], c: 1},
+    {q: "447) Rice water stools are characteristic of :", a: ["Typhoid fever", "Cholera", "Bacillary dysentery", "Amoebic dysentery"], c: 1},
+    {q: "448) The causative agent of cholera is :", a: ["Vibrio cholerae", "Vibrio parahaemolyticus", "Aeromonas hydrophila", "Campylobacter jejuni"], c: 0},
+    {q: "449) The toxin responsible for cholera is :", a: ["Endotoxin", "Exotoxin (Choleragen)", "Neurotoxin", "Verotoxin"], c: 1},
+    {q: "450) The medium of choice for transport of Vibrio cholerae is :", a: ["Stuart's medium", "Venkatraman-Ramakrishnan (VR) medium", "Buffered glycerol saline", "Nutrient broth"], c: 1},
+    {q: "451) All of the following are true about Yersinia pestis EXCEPT :", a: ["It causes plague", "It shows safety pin appearance on staining", "It is motile at 37°C", "It is a Gram-negative rod"], c: 2},
+    {q: "452) The vector for transmission of bubonic plague is :", a: ["Louse", "Tick", "Rat flea", "Mosquito"], c: 2},
+    {q: "453) Buboes are characteristic of :", a: ["Septicemic plague", "Pneumonic plague", "Bubonic plague", "None of the above"], c: 2},
+    {q: "454) The causative agent of whooping cough is :", a: ["Haemophilus influenzae", "Bordetella pertussis", "Brucella melitensis", "Francisella tularensis"], c: 1},
+    {q: "455) Mercury drop appearance of colonies is characteristic of :", a: ["Bordetella pertussis", "Haemophilus influenzae", "Vibrio cholerae", "Corynebacterium diphtheriae"], c: 0},
+    {q: "456) The vaccine used for prevention of whooping cough is :", a: ["TAB", "BCG", "Pertussis vaccine (in DTP)", "MMR"], c: 2},
+    {q: "457) All of the following are true about Haemophilus influenzae EXCEPT :", a: ["It requires X and V factors for growth", "It is a Gram-positive coccobacillus", "It shows satellitism", "It causes meningitis in children"], c: 1},
+    {q: "458) The causative agent of soft chancre (chancroid) is :", a: ["Treponema pallidum", "Haemophilus ducreyi", "Neisseria gonorrhoeae", "Chlamydia trachomatis"], c: 1},
+    {q: "459) Brucellosis is primarily a disease of :", a: ["Humans", "Animals (Zoonosis)", "Birds", "Fish"], c: 1},
+    {q: "460) The diagnostic test for brucellosis is :", a: ["Widal test", "Standard Agglutination Test (SAT)", "Weil-Felix reaction", "Rose-Waaler test"], c: 1},
+    {q: "461) All of the following are true of Pseudomonas aeruginosa EXCEPT :", a: ["It produces blue-green pigment", "It is an obligate aerobe", "It is sensitive to most common antibiotics", "It causes opportunistic infections"], c: 2},
+    {q: "462) The pigment produced by Pseudomonas aeruginosa is :", a: ["Pyocyanin", "Prodigiosin", "Staphyloxanthin", "None of the above"], c: 0},
+    {q: "463) All of the following are true of Clostridium tetani EXCEPT :", a: ["It is an obligate anaerobe", "It produces drumstick appearance spores", "It is a Gram-negative rod", "It produces a powerful neurotoxin"], c: 2},
+    {q: "464) The toxin responsible for tetanus is :", a: ["Tetanospasmin", "Tetanolysin", "Botulinum toxin", "Lecithinase"], c: 0},
+    {q: "465) Lockjaw is another name for :", a: ["Botulism", "Tetanus", "Gas gangrene", "Diphtheria"], c: 1},
+    {q: "466) The vaccine used for active immunization against tetanus is :", a: ["Tetanus immunoglobulin", "Tetanus toxoid", "Anti-tetanus serum", "Killed vaccine"], c: 1},
+    {q: "467) All of the following are true of Clostridium botulinum EXCEPT :", a: ["It causes food poisoning", "Its toxin is heat labile", "It is an obligate aerobe", "Its toxin acts by blocking acetylcholine release"], c: 2},
+    {q: "468) The most common cause of gas gangrene is :", a: ["Clostridium tetani", "Clostridium perfringens", "Clostridium botulinum", "Clostridium difficile"], c: 1},
+    {q: "469) Nagler’s reaction is used to identify :", a: ["Clostridium tetani", "Clostridium perfringens", "Clostridium botulinum", "Clostridium difficile"], c: 1},
+    {q: "470) Pseudomembranous colitis is caused by :", a: ["Clostridium perfringens", "Clostridium difficile", "Escherichia coli", "Shigella dysenteriae"], c: 1},
+    {q: "471) All of the following are true of Rickettsia EXCEPT :", a: ["They are obligate intracellular parasites", "They are transmitted by arthropod vectors", "They are easily grown in artificial media", "They cause typhus fever"], c: 2},
+    {q: "472) Weil-Felix reaction is used for the diagnosis of :", a: ["Typhoid fever", "Rickettsial diseases", "Syphilis", "Brucellosis"], c: 1},
+    {q: "473) The causative agent of epidemic typhus is :", a: ["Rickettsia prowazekii", "Rickettsia typhi", "Rickettsia rickettsii", "Coxiella burnetii"], c: 0},
+    {q: "474) Q fever is caused by :", a: ["Rickettsia prowazekii", "Coxiella burnetii", "Rickettsia akari", "Orientia tsutsugamushi"], c: 1},
+    {q: "475) All of the following are true of Chlamydia EXCEPT :", a: ["They are obligate intracellular parasites", "They have a unique developmental cycle", "They contain both DNA and RNA", "They are viruses"], c: 3},
+    {q: "476) Trachoma is caused by :", a: ["Chlamydia trachomatis", "Chlamydia psittaci", "Chlamydia pneumoniae", "Neisseria gonorrhoeae"], c: 0},
+    {q: "477) The infective stage of Chlamydia is :", a: ["Reticulate body", "Elementary body", "Initial body", "None of the above"], c: 1},
+    {q: "478) All of the following are true of Mycoplasma EXCEPT :", a: ["They lack a cell wall", "They are the smallest free-living organisms", "They are sensitive to penicillin", "They show fried egg appearance of colonies"], c: 2},
+    {q: "479) Primary atypical pneumonia is caused by :", a: ["Streptococcus pneumoniae", "Mycoplasma pneumoniae", "Haemophilus influenzae", "Klebsiella pneumoniae"], c: 1},
+    {q: "480) Cold agglutinin test is used for the diagnosis of :", a: ["Pneumococcal pneumonia", "Mycoplasma pneumonia", "Viral pneumonia", "Tuberculosis"], c: 1},
+    {q: "481) The genetic material of viruses can be :", a: ["DNA only", "RNA only", "Either DNA or RNA", "Both DNA and RNA"], c: 2},
+    {q: "482) The protein coat of a virus is called :", a: ["Envelope", "Capsid", "Nucleoid", "Capsomere"], c: 1},
+    {q: "483) Bacteriophages are viruses that infect :", a: ["Humans", "Animals", "Plants", "Bacteria"], c: 3},
+    {q: "484) The unit of viral size measurement is :", a: ["Micrometer", "Nanometer", "Millimeter", "Angstrom"], c: 1},
+    {q: "485) All of the following are DNA viruses EXCEPT :", a: ["Herpesvirus", "Poxvirus", "Adenovirus", "Retrovirus"], c: 3},
+    {q: "486) All of the following are RNA viruses EXCEPT :", a: ["Orthomyxovirus", "Paramyxovirus", "Hepadnavirus", "Picornavirus"], c: 2},
+    {q: "487) The gold standard for viral diagnosis is :", a: ["Serology", "PCR", "Viral culture", "Electron microscopy"], c: 2},
+    {q: "488) Negri bodies are characteristic of :", a: ["Measles", "Rabies", "Smallpox", "Herpes simplex"], c: 1},
+    {q: "489) The vaccine used for prevention of rabies is :", a: ["Live attenuated vaccine", "Killed vaccine", "Toxoid", "Subunit vaccine"], c: 1},
+    {q: "490) The causative agent of smallpox was :", a: ["Varicella virus", "Variola virus", "Vaccinia virus", "Molluscum contagiosum virus"], c: 1},
+    {q: "491) Chickenpox is caused by :", a: ["Variola virus", "Varicella-zoster virus", "Herpes simplex virus", "Cytomegalovirus"], c: 1},
+    {q: "492) Tzanck smear is used for the diagnosis of :", a: ["Smallpox", "Herpes simplex/Varicella", "Measles", "Mumps"], c: 1},
+    {q: "493) Infectious mononucleosis is caused by :", a: ["Cytomegalovirus", "Epstein-Barr virus", "Herpes simplex virus", "Human herpesvirus 6"], c: 1},
+    {q: "494) All of the following are transmitted by fecal-oral route EXCEPT :", a: ["Hepatitis A", "Hepatitis B", "Hepatitis E", "Poliovirus"], c: 1},
+    {q: "495) The virus responsible for AIDS is :", a: ["HTLV-1", "HIV", "EBV", "HBV"], c: 1},
+    {q: "496) The target cells for HIV infection are :", a: ["B cells", "CD4+ T cells", "CD8+ T cells", "NK cells"], c: 1},
+    {q: "497) The screening test for HIV infection is :", a: ["Western blot", "ELISA", "PCR", "Viral culture"], c: 1},
+    {q: "498) The confirmatory test for HIV infection is :", a: ["Western blot", "ELISA", "PCR", "Viral culture"], c: 0},
+    {q: "499) All of the following are arboviruses EXCEPT :", a: ["Dengue virus", "Yellow fever virus", "Japanese encephalitis virus", "Hepatitis C virus"], c: 3},
+    {q: "500) The vector for transmission of Dengue fever is :", a: ["Anopheles mosquito", "Culex mosquito", "Aedes aegypti mosquito", "Rat flea"], c: 2}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

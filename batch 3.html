@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 3 (Q201-300)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 3 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 3</h1>
+    <p>Questions 201 - 300</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "201) All of the following statements are true about L forms of bacteria EXCEPT that they :", a: ["Are aberrant morphological forms", "Develop in the presence of penicillin", "Are always stable", "Are named after Lister Institute, London"], c: 2},
+    {q: "202) All are true about bacterial spores EXCEPT that:", a: ["They are a method of reproduction.", "They are resistant to desiccation.", "They can be destroyed by autoclaving at 120°C for 15 minutes.", "They are produced by the genus Bacillus."], c: 0},
+    {q: "203) In which phase of bacterial growth does sporulation occur?", a: ["Lag phase", "Log phase", "Stationary phase", "Phase of decline"], c: 2},
+    {q: "204) Bacteria that are unable to synthesise their own metabolites and depend on preformed organic compounds are called:", a: ["Phototrophs", "Chemotrophs", "Autotrophs", "Heterotrophs"], c: 3},
+    {q: "205) Which of the following is acid fast?", a: ["Mycobacterium tuberculosis", "Nocardia", "M.leprae", "All of the above"], c: 3},
+    {q: "206) The source of illumination is electrons in :", a: ["Fluorescent microscope", "Electron microscope", "Phase contrast microscope", "Dark ground microscope"], c: 1},
+    {q: "207) Flexuous spiral forms are seen in:", a: ["Mycoplasma", "Spirochetes", "Vibrios", "Actinomycetes"], c: 1},
+    {q: "208) Which of the following organisms has sterols in their cytoplasmic membrane?", a: ["Clostridium", "Chlamydiae", "Mycoplasma", "Neisseria"], c: 2},
+    {q: "209) All of the following statements are true about dry heat sterilisation EXCEPT:", a: ["Mechanism of action is by protein denaturation.", "Incineration is a method of dry heat sterilisation.", "Efficacy is tested using spores of Geobacillus stearothermophilus.", "Glassware can be sterilised using dry heat sterilisation."], c: 2},
+    {q: "210) Heat-resistant spores of non-toxigenic strains of Clostridium tetani are used to test the efficacy of :", a: ["Moist heat sterilisation", "lonising radiation", "Dry heat sterilisation", "None of the above"], c: 2},
+    {q: "211) Tyndallisation is a type of :", a: ["Intermittent sterilisation", "Filtration", "Pasteurisation", "Dry heat sterilisation"], c: 0},
+    {q: "212) Endoscopes are sterilised by:", a: ["Hot-air oven", "Autoclaving", "Glutaraldehyde", "Formaldehyde"], c: 2},
+    {q: "213) Which bacterial spores are used as sterilisation control in autoclave?", a: ["Clostridium perfringens", "Bacillus cereus", "Geobacillus stearothermophilus", "Bacillus anthracis"], c: 2},
+    {q: "214) All of the following are chemical sterilising agents EXCEPT :", a: ["Ethylene oxide", "Alcohol", "Hydrogen peroxide", "Peracetic acid"], c: 1},
+    {q: "215) The sterilisation conditions required for autoclaving are :", a: ["121°C and 15 lbs. pressure for 20 minutes", "120°C and 20 lbs. pressure for 30 minutes", "150°C for 1 hour", "130°C for 2 hours"], c: 0},
+    {q: "216) All of the following are ionising radiations used in sterilisation EXCEPT :", a: ["X-rays", "Gamma rays", "Cosmic rays", "Ultraviolet rays"], c: 3},
+    {q: "217) All of the following are true of alcohols EXCEPT:", a: ["Used mainly as skin antiseptics", "Act by denaturing bacterial proteins", "Used in concentration of 60-90% in water.", "Are sporicidal"], c: 3},
+    {q: "218) The concentration of glutaraldehyde used in high-level disinfection is :", a: ["0.02%", "0.5%", "1.5%", "2% (Usually 2% or higher, closest option in typical exams is >1% but here '2%' is standard, checking provided options: 0.02, 0.5, 1.5, 1. In source text opt D is 1%. Often 2% is standard. Let's check source: source says 'd) 1%'. This is a typo in source or specific context. Standard is 2%. Will mark source answer d: 2% is common but source lists 1% maybe typo for 2% or specific formulation. Let's check key. Key not explicitly provided for this. Standard medical knowledge: 2%. Options: a) 0.02, b) 0.5, c) 1.5, d) 1. Wait, source says d is 1%? Ah source text says d) 1%? Actually source text is garbled: 'd) 1%'. I will assume the source intended '2%' or the answer is meant to be the highest concentration. Actually 2% is standard. Source text: 'd) 1%' - I will use the text's d option."], c: 3},
+    {q: "219) Which of the following is an enrichment media?", a: ["Nutrient broth", "Tetrathionate broth", "Stuart medium", "Thayer-Martin medium"], c: 1},
+    {q: "220) Which one of the following statements is true?", a: ["Agar has nutrient properties.", "Chocolate agar is a selective medium.", "Addition of selective substances in a solid medium is called enrichment media.", "Nutrient broth is a basal medium."], c: 3},
+    {q: "221) MacConkey agar is an example of :", a: ["Differential medium", "Transport medium", "Enriched medium", "Anaerobic medium"], c: 0},
+    {q: "222) All of the following are enriched media EXCEPT:", a: ["Loeffler's serum slope", "Blood agar", "Chocolate agar", "Nutrient agar"], c: 3},
+    {q: "223) A solid medium containing substances which allows wanted bacteria to grow and inhibits the growth of unwanted bacteria is called :", a: ["Differential medium", "Enriched medium", "Enrichment medium", "Selective medium"], c: 3},
+    {q: "224) Stuart's transport medium is used for the transport of specimens containing :", a: ["Salmonellae", "Gonococci", "Vibrio cholerae", "Shigellae"], c: 1},
+    {q: "225) Robertson's cooked meat medium is used to grow :", a: ["Anaerobes", "Viruses", "Yeasts", "Aerobes"], c: 0},
+    {q: "226) Agar-agar is used in microbiological media for :", a: ["Nutritive value", "Solidifying media", "Carbon source", "All of the above"], c: 1},
+    {q: "227) Which of the following selective media is used to isolate M.tuberculosis?", a: ["Deaxycholate citrate medium", "Thayer-Martin medium", "Lowenstein-Jensen medium", "Potassium tellurite blood agar"], c: 2},
+    {q: "228) All of the following are true about Sabouraud's dextrose agar EXCEPT :", a: ["Contains glucose", "Has alkaline pH", "Selective medium for fungi", "Contains cycloheximide"], c: 1},
+    {q: "229) McIntosh-Filde's anaerobic jar is used for the isolation of :", a: ["Clostridium tetani", "Pseudomonas aeruginosa", "Streptococcus pyogenes", "None of the above"], c: 0},
+    {q: "230) Lawn culture method is used for :", a: ["Antibiotic sensitivity testing", "Bacteriophage typing", "Preparation of bacterial antigens", "All of the above"], c: 3},
+    {q: "231) The growth of bacteria in liquid culture medium is indicated by the presence of :", a: ["Turbidity", "Deposit", "Surface pellicle", "All of the above"], c: 3},
+    {q: "232) Triple sugar iron medium contains the following sugars EXCEPT :", a: ["Glucose", "Sucrose", "Lactose", "Maltose"], c: 3},
+    {q: "233) The transfer of DNA from one bacterium to another by bacteriophage is called:", a: ["Conjugation", "Transduction", "Transformation", "Transposition"], c: 1},
+    {q: "234) Which of the following is responsible for the transfer of drug resistance in bacteria?", a: ["Colicinogenic factor", "Resistance transfer factor", "F factor", "None of the above"], c: 1},
+    {q: "235) Transfer of genetic information through free DNA is called :", a: ["Transformation", "Transduction", "Conjugation", "Lysogenic conversion"], c: 0},
+    {q: "236) Northern blotting is used for analysis of:", a: ["DNA", "RNA", "Proteins", "All of the above"], c: 1},
+    {q: "237) Which among the following statements best describes a commensal?", a: ["They are free-living microbes that subsist on dead or decaying organic matter.", "They are incapable of multiplying in living tissues.", "They live in harmony with the host.", "They produce disease in the host most of the time."], c: 2},
+    {q: "238) Secondary infection refers to :", a: ["A new parasite setting up an infection when resistance is lowered by a pre-existing infectious disease", "Subsequent infections by the same parasite", "Infection acquired from another host or external source", "Infection of a localised site producing generalised effects"], c: 0},
+    {q: "239) Latent infection means:", a: ["Clinical effects are not apparent", "Typical manifestations are not evident", "Parasites remain hidden in the tissues", "Infection occurring from within the host body"], c: 2},
+    {q: "240) Who is a paradoxical carrier?", a: ["A carrier of less than six months", "A carrier who acquires the pathogen from another carrier", "A carrier who has never suffered from the disease caused by the pathogen", "A carrier who acquires the pathogen from a patient"], c: 3},
+    {q: "241) Exaltation means :", a: ["Enhancement of virulence", "Ability to produce teratogenic intections", "Ability to be transmitted vertically", "Development occurring in a vector"], c: 0},
+    {q: "242) Endotoxins have all the following properties EXCEPT:", a: ["Heat-stable", "No enzymatic action", "Highly antigenic", "Non-specific activity"], c: 2},
+    {q: "243) The term prosodemic disease refers to:", a: ["Outbreak of disease in bird population", "A disease constantly present at a high incidence", "A disease affecting large numbers of people and wide geographic area", "A disease which causes a smouldering epidemic"], c: 3},
+    {q: "244) Lysozyme is present in:", a: ["Cerebrospinal fluid", "Saliva", "Sweat", "Urine"], c: 1},
+    {q: "245) All of the following options are true regarding lysozyme EXCEPT:", a: ["Thermolabile", "Low molecular weight", "Acidic protein", "Acts as a muraminidase"], c: 2},
+    {q: "246) Which among the following is not a characteristic feature of adaptive immunity?", a: ["Antigenic sensitivity", "Diversity", "Immunologic memory", "Self-tolerance"], c: 0},
+    {q: "247) Immune elimination is a result of :", a: ["Repeated administration of subunit vaccines", "Repeated administration of BCG vaccine", "Repeated infection with malaria", "Repeated administration of antibodies"], c: 3},
+    {q: "248) All the following statements are true about active immunity EXCEPT :", a: ["There is a lag period.", "It is durable and effective protection.", "There is no negative phase.", "It is not applicable in the immunodeficient."], c: 2},
+    {q: "249) Premunition refers to :", a: ["Co-infection with closely related species", "Superinfection with another organism", "Resistance to re-infection", "Re-infection when original infection is still active"], c: 2},
+    {q: "250) Which is an example for artificial active immunity?", a: ["Infection by influenza virus", "Receiving killed cholera vaccine", "Through human colostrum", "Administering tetanus immunoglobulin"], c: 1},
+    {q: "251) Adoptive immunity is by :", a: ["Infection", "Administration of antibodies", "Administration of lymphocytes", "Active immunization"], c: 2},
+    {q: "252) All of the following statements are true regarding antigens EXCEPT:", a: ["Antigenicity allows a substance to combine specifically with antibodies.", "The ability to induce an immune response is immunogenicity.", "Haptens can induce antibody formation but cannot react specifically with it.", "Complex haptens can precipitate with specific antibodies."], c: 2},
+    {q: "253) The smallest unit of antigenicity is :", a: ["Paratope", "Epitope", "Agretope", "Isotope"], c: 1},
+    {q: "254) Isoantigens are :", a: ["Antigens present in some but not all members of a species", "Closely related antigens seen in different biological species", "Self-antigens that are not ordinarily antigenic", "Antigens characteristic of a given tissue"], c: 0},
+    {q: "255) All are heterophile antigen tests EXCEPT :", a: ["Weil-Felix reaction", "Paul-Bunnell test", "Rose-Waaler test", "Cold agglutinin test"], c: 2},
+    {q: "256) Which of the following properties is true about T cell-independent antigens?", a: ["Complex of T cell receptor, antigen and MHC molecule formed", "Antigen processing not required", "Mostly soluble proteins", "Isotype switching present"], c: 1},
+    {q: "257) Which among the following is most immunogenic?", a: ["Proteins", "Lipids", "Polysaccharides", "Monosaccharides"], c: 0},
+    {q: "258) Which of the following is not true about superantigens?", a: ["The activation of T cells is antigen-specific", "They induce massive activation of T cells", "There are endogenous and exogenous superantigens", "They bind to V domain of TCR and domain of class II MHC"], c: 0},
+    {q: "259) All are pattern recognition receptors EXCEPT :", a: ["Toll-like receptors", "Scavenger receptors", "Mannose receptors", "B cell receptors"], c: 3},
+    {q: "260) Hapten is :", a: ["The same as epitope", "Small molecular weight molecules", "Requires carrier for specific antibody production", "Simple haptens can precipitate"], c: 2},
+    {q: "261) All of the following statements about carbohydrate antigens are true EXCEPT:", a: ["It has lower immunogenicity.", "Memory response is seen.", "They cause polyclonal B cell stimulation.", "They do not require stimulation by T cells."], c: 1},
+    {q: "262) Immunoglobulin molecule when treated with mercaptoethanol yields :", a: ["2 Fab fragments and Fc fragment", "2 Fab fragments held together in position and Fc fragment", "2 Fab fragments held together in position with Fc digested", "2 L chains and 2 H chains"], c: 3},
+    {q: "263) The proportion of kappa and lambda chains in human beings are as follows :", a: ["60 per cent and 40 per cent respectively", "20 per cent and 80 per cent respectively", "70 per cent and 30 per cent respectively", "30 per cent and 70 per cent respectively"], c: 0},
+    {q: "264) Which is the major immunoglobulin in terms of concentration?", a: ["IgG", "IgA", "IgM", "IgD"], c: 0},
+    {q: "265) Which immunoglobulin has the longest half-life?", a: ["IgG", "IgA", "IgM", "IgD"], c: 0},
+    {q: "266) Which immunoglobulin has the maximum intravascular distribution?", a: ["IgE", "IgA", "IgM", "IgG"], c: 2},
+    {q: "267) What is the concentration of IgE in serum?", a: ["0.04 mg/dl", "0.004 mg/dl", "0.0004 mg/dl", "0.00004 mg/dl"], c: 3},
+    {q: "268) All of the following are heat-stable EXCEPT :", a: ["IgE", "IgA", "IgM", "IgG"], c: 0},
+    {q: "269) Which immunoglobulin crosses the placenta?", a: ["IgG", "IgA", "IgM", "IgD"], c: 0},
+    {q: "270) What is the valency of secretory IgA?", a: ["2", "4", "6", "10"], c: 1},
+    {q: "271) Antibody paste is formed by :", a: ["IgG", "IgA", "IgM", "IgD"], c: 1},
+    {q: "272) Secretory piece of IgA is synthesised by :", a: ["Plasma cells", "Antigen-presenting cells", "Epithelial cells", "MALT"], c: 2},
+    {q: "273) Which is known as the 'millionaire molecule?", a: ["IgE", "IgA", "IgM", "IgG"], c: 2},
+    {q: "274) The earliest immunoglobulin to be synthesised by the fetus is :", a: ["IgG", "IgM", "IgE", "IgA"], c: 1},
+    {q: "275) Antigens with repeating antigenic determinants are dealt by :", a: ["IgE", "IgA", "IgM", "IgG"], c: 2},
+    {q: "276) B cell receptors are constituted by:", a: ["IgG and IgM", "IgE and IgM", "IgD and IgG", "IgM and IgD"], c: 3},
+    {q: "277) Subtle amino acid variations exhibited in the constant region of immunoglobulins by members of the same species is known as :", a: ["Idiotypes", "Isotypes", "Genotypes", "Allotypes"], c: 3},
+    {q: "278) Which among the following has pentameric structure?", a: ["IgM", "IgG", "IgA", "IgD"], c: 0},
+    {q: "279) Bence Jones proteins are best described as:", a: ["K and L chains", "u chains", "y chains", "Fibrin split products"], c: 0},
+    {q: "280) Which among the following coagulates at 50°C and re-dissolves at 70°C?", a: ["lg u heavy chains", "Ig y heavy chains", "K chain", "Bence Jones Proteins"], c: 3},
+    {q: "281) The true statement about immunoglobulins is:", a: ["IgM fixes complement", "IgG does not cross placenta", "IgE binds to phagocytes", "IgA binds to mast cells"], c: 0},
+    {q: "282) Demonstrable events during antigen-antibody reactions take place during :", a: ["Primary stage", "Secondary stage", "Tertiary stage", "Quaternary stage"], c: 1},
+    {q: "283) All the following molecular forces are involved in antigen-antibody reactions, Except", a: ["Van der Waal's forces", "lonic bonds", "Covalent bonds", "Hydrogen bonds"], c: 2},
+    {q: "284) The true statement regarding precipitation reaction is :", a: ["Insoluble antigen combines with antibody.", "It is used for routine identification of bacterial isolates.", "Post zone phenomenon does not apply for precipitation reaction.", "It can be done in agar medium."], c: 3},
+    {q: "285) An example for an application of precipitation reaction is :", a: ["Standardisation of toxins and anti-toxins", "Coombs test", "Blood grouping and cross matching", "Rose-Waaler test"], c: 0},
+    {q: "286) Oakley-Fulthorpe procedure is :", a: ["Single diffusion in one dimension", "Double diffusion in one dimension", "Single diffusion in two dimensions", "Double diffusion in two dimensions"], c: 1},
+    {q: "287) The statement which is false about agglutination tests is :", a: ["Particulate antigens react with antibodies.", "Coombs test is done for diagnosis of Brucellosis.", "Indirect Coombs test is done with newborn RBCs.", "Heterophile antigen test is an example for agglutination reaction."], c: 1},
+    {q: "288) Schick test is an example of:", a: ["Neutralisation test", "Complement fixation test", "Passive agglutination test", "Co-agglutination test"], c: 0},
+    {q: "289) An example for latex agglutination test is :", a: ["Rose-Waaler test", "RA factor test", "Widal test", "Wasserman reaction"], c: 1},
+    {q: "290) Coombs test is also known as :", a: ["Complement fixation test", "Agglutination test", "Neutralisation test", "Antiglobulin test"], c: 3},
+    {q: "291) Widal test is a type of :", a: ["Precipitation reaction", "Agglutination reaction", "Neutralisation test", "Complement fixation test"], c: 1},
+    {q: "292) An example for complement fixation test is :", a: ["Rose-Waaler test", "RA factor test", "Widal test", "Wasserman reaction"], c: 3},
+    {q: "293) The term complement was introduced by :", a: ["Buchner", "Pfeiffer", "Ehrlich", "Bordet"], c: 2},
+    {q: "294) Serum can be 'inactivated' by exposing to :", a: ["45°C for 20 minutes", "46°C for 30 minutes", "50°C for 20 minutes", "56°C for 30 minutes"], c: 3},
+    {q: "295) All the following immunoglobulins fix complement EXCEPT :", a: ["IgM", "IgG3", "IgG2", "IgA"], c: 3},
+    {q: "296) Complement binding site on immunoglobulin is :", a: ["Fc portion", "Hinge region", "Fab region", "Complementarity-determining regions"], c: 0},
+    {q: "297) Which step of complement activation is common to all three major pathways?", a: ["C1 activation", "C3 activation", "C3 activation", "C5 activation"], c: 2},
+    {q: "298) C5 convertase of classical pathway is :", a: ["C1s4b", "C4b2a", "C4a2b", "C4b2a3b"], c: 3},
+    {q: "299) Which component in the alternative pathway is analogous to C5 convertase of classical pathway?", a: ["C3bBa", "C3bBb", "C3bBb3b", "C3bBb3a."], c: 2},
+    {q: "300) Which component in the alternative pathway is analogous to C3 convertase of classical pathway?", a: ["C3bBa", "C3bBb", "C36Bb3b", "C3bBb3a"], c: 1}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

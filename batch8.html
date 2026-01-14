@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 8 (Q701-800)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 8 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 8</h1>
+    <p>Questions 701 - 800 (Parasitology & Protozoa)</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "701) The infective stage of Entamoeba histolytica is:", a: ["Trophozoite", "Precyst", "Mature quadrinucleate cyst", "Uninucleate cyst"], c: 2},
+    {q: "702) Amoebic dysentery is characterized by:", a: ["Blood and mucus in stool", "Rice water stool", "Pea soup stool", "Constipation"], c: 0},
+    {q: "703) The most common extra-intestinal site for amoebiasis is:", a: ["Brain", "Lungs", "Liver", "Spleen"], c: 2},
+    {q: "704) 'Anchovy sauce' pus is characteristic of:", a: ["Pyogenic liver abscess", "Amoebic liver abscess", "Lung abscess", "Hydatid cyst"], c: 1},
+    {q: "705) Which of the following is a non-pathogenic amoeba?", a: ["E. histolytica", "E. coli", "Naegleria fowleri", "Acanthamoeba"], c: 1},
+    {q: "706) Primary amoebic meningoencephalitis is caused by:", a: ["E. histolytica", "Naegleria fowleri", "Acanthamoeba", "Giardia"], c: 1},
+    {q: "707) Giardia lamblia primarily inhabits the:", a: ["Large intestine", "Duodenum and upper jejunum", "Stomach", "Liver"], c: 1},
+    {q: "708) The shape of Giardia lamblia trophozoite is:", a: ["Spherical", "Tennis-racket or pear-shaped", "Oval", "Sickle-shaped"], c: 1},
+    {q: "709) Steatorrhea (fatty stool) is a common feature of:", a: ["Amoebiasis", "Giardiasis", "Malaria", "Leishmaniasis"], c: 1},
+    {q: "710) Trichomonas vaginalis is a:", a: ["Ciliate", "Flagellate", "Amoeba", "Sporozoan"], c: 1},
+    {q: "711) The habitat of Trichomonas vaginalis is:", a: ["Intestine", "Vagina and urethra", "Blood", "Liver"], c: 1},
+    {q: "712) Which parasite has no cyst stage in its life cycle?", a: ["Giardia lamblia", "Entamoeba histolytica", "Trichomonas vaginalis", "Balantidium coli"], c: 2},
+    {q: "713) The vector for Kala-azar (Visceral leishmaniasis) is:", a: ["Tsetse fly", "Sandfly (Phlebotomus)", "Anopheles mosquito", "Culex mosquito"], c: 1},
+    {q: "714) The causative agent of Kala-azar is:", a: ["Leishmania tropica", "Leishmania donovani", "Leishmania braziliensis", "Trypanosoma cruzi"], c: 1},
+    {q: "715) L.D. bodies are found in:", a: ["Red blood cells", "Macrophages of the reticuloendothelial system", "Neutrophils", "Plasma"], c: 1},
+    {q: "716) The test used for the diagnosis of Kala-azar is:", a: ["Widal test", "Aldehyde test of Napier", "Weil-Felix test", "VDRL"], c: 1},
+    {q: "717) African Sleeping Sickness is transmitted by:", a: ["Sandfly", "Tsetse fly (Glossina)", "Reduviid bug", "Louse"], c: 1},
+    {q: "718) Chagas disease is caused by:", a: ["Trypanosoma brucei", "Trypanosoma cruzi", "Leishmania donovani", "Toxoplasma gondii"], c: 1},
+    {q: "719) The vector for Chagas disease is:", a: ["Tsetse fly", "Reduviid (Triatomine) bug", "Sandfly", "Tick"], c: 1},
+    {q: "720) Romana's sign is characteristic of:", a: ["Sleeping sickness", "Chagas disease", "Kala-azar", "Amoebiasis"], c: 1},
+    {q: "721) The definitive host for Plasmodium (malaria parasite) is:", a: ["Human", "Female Anopheles mosquito", "Male Anopheles mosquito", "Monkey"], c: 1},
+    {q: "722) The infective stage of Plasmodium to humans is the:", a: ["Merozoite", "Sporozoite", "Trophozoite", "Gametocyte"], c: 1},
+    {q: "723) Relapse in malaria (P. vivax) is due to the presence of:", a: ["Merozoites", "Hypnozoites", "Schizonts", "Gametocytes"], c: 1},
+    {q: "724) The most dangerous form of malaria is caused by:", a: ["P. vivax", "P. falciparum", "P. malariae", "P. ovale"], c: 1},
+    {q: "725) Schuffner's dots are seen in RBCs infected with:", a: ["P. falciparum", "P. vivax", "P. malariae", "P. knowlesi"], c: 1},
+    {q: "726) Maurer's clefts are seen in RBCs infected with:", a: ["P. vivax", "P. falciparum", "P. ovale", "P. malariae"], c: 1},
+    {q: "727) The gold standard for malaria diagnosis is:", a: ["ELISA", "Thick and thin peripheral blood smears", "PCR", "Rapid diagnostic tests (RDTs)"], c: 1},
+    {q: "728) Blackwater fever is a complication of infection by:", a: ["P. vivax", "P. falciparum", "P. malariae", "P. ovale"], c: 1},
+    {q: "729) The drug of choice for the radical cure of P. vivax is:", a: ["Chloroquine", "Primaquine", "Quinine", "Artesunate"], c: 1},
+    {q: "730) Toxoplasma gondii is primarily transmitted to humans from:", a: ["Dogs", "Cats (feces)", "Pigs", "Birds"], c: 1},
+    {q: "731) Congenital toxoplasmosis can lead to:", a: ["Elephantiasis", "Hydrocephalus and chorioretinitis", "Liver cirrhosis", "Dysentery"], c: 1},
+    {q: "732) The only ciliate pathogenic to humans is:", a: ["Giardia lamblia", "Balantidium coli", "Trichomonas vaginalis", "Entamoeba coli"], c: 1},
+    {q: "733) Cryptosporidium parvum causes severe diarrhea in:", a: ["Healthy adults", "Immunocompromised/AIDS patients", "Children only", "Elderly only"], c: 1},
+    {q: "734) The infective stage of hookworm (Ancylostoma) is:", a: ["Egg", "Filariform larva", "Rhabditiform larva", "Adult worm"], c: 1},
+    {q: "735) Hookworm infection primarily causes:", a: ["Meningitis", "Iron deficiency anemia", "Jaundice", "Pneumonia"], c: 1},
+    {q: "736) The largest intestinal nematode is:", a: ["Hookworm", "Ascaris lumbricoides", "Pinworm", "Whipworm"], c: 1},
+    {q: "737) Loeffler's syndrome is associated with the lung migration of:", a: ["Pinworm", "Ascaris lumbricoides", "Tapeworm", "Filarial worm"], c: 1},
+    {q: "738) Enterobius vermicularis is commonly known as:", a: ["Roundworm", "Pinworm (Threadworm)", "Hookworm", "Whipworm"], c: 1},
+    {q: "739) The most common symptom of pinworm infection is:", a: ["Diarrhea", "Perianal pruritus (itching)", "Anemia", "Fever"], c: 1},
+    {q: "740) The diagnostic test for Enterobius vermicularis is:", a: ["Stool examination", "NIH swab or Scotch tape test", "Blood culture", "Urine analysis"], c: 1},
+    {q: "741) Wuchereria bancrofti causes:", a: ["Malaria", "Lymphatic filariasis (Elephantiasis)", "Kala-azar", "Sleeping sickness"], c: 1},
+    {q: "742) The vector for Wuchereria bancrofti in India is:", a: ["Aedes mosquito", "Culex quinquefasciatus", "Anopheles", "Sandfly"], c: 1},
+    {q: "743) Nocturnal periodicity is characteristic of the microfilariae of:", a: ["Loa loa", "Wuchereria bancrofti", "Onchocerca volvulus", "Brugia malayi"], c: 1},
+    {q: "744) The drug of choice for Filariasis is:", a: ["Albendazole", "Diethylcarbamazine (DEC)", "Praziquantel", "Metronidazole"], c: 1},
+    {q: "745) Guinea worm disease is caused by:", a: ["Dracunculus medinensis", "Loa loa", "Wuchereria bancrofti", "Strongyloides"], c: 0},
+    {q: "746) Tapeworms (Cestodes) lack a:", a: ["Nervous system", "Digestive system", "Reproductive system", "Excretory system"], c: 1},
+    {q: "747) Taenia saginata is known as the:", a: ["Pork tapeworm", "Beef tapeworm", "Fish tapeworm", "Dog tapeworm"], c: 1},
+    {q: "748) The intermediate host for Taenia solium (Pork tapeworm) is:", a: ["Cattle", "Pig", "Dog", "Fish"], c: 1},
+    {q: "749) Cysticercosis is caused by the ingestion of eggs of:", a: ["Taenia saginata", "Taenia solium", "Ascaris", "Echinococcus"], c: 1},
+    {q: "750) Hydatid disease is caused by:", a: ["Taenia solium", "Echinococcus granulosus", "Hymenolepis nana", "Diphyllobothrium latum"], c: 1},
+    {q: "751) The definitive host for Echinococcus granulosus is the:", a: ["Human", "Dog", "Sheep", "Pig"], c: 1},
+    {q: "752) Casoni test is used for the diagnosis of:", a: ["Kala-azar", "Hydatid disease", "Schistosomiasis", "Amoebiasis"], c: 1},
+    {q: "753) The smallest tapeworm infecting humans is:", a: ["Taenia solium", "Hymenolepis nana", "Echinococcus granulosus", "Taenia saginata"], c: 1},
+    {q: "754) Schistosoma haematobium primarily causes:", a: ["Liver cirrhosis", "Urinary schistosomiasis (hematuria)", "Intestinal obstruction", "Lung nodules"], c: 1},
+    {q: "755) The intermediate host for all Schistosomes is:", a: ["Fish", "Snail", "Crab", "Pig"], c: 1},
+    {q: "756) Katayama fever is associated with:", a: ["Malaria", "Schistosomiasis", "Filariasis", "Leishmaniasis"], c: 1},
+    {q: "757) Hermaphroditic flukes include all EXCEPT:", a: ["Fasciola hepatica", "Schistosoma", "Paragonimus westermani", "Clonorchis sinensis"], c: 1},
+    {q: "758) The infective stage of Schistosomes to humans is:", a: ["Metacercaria", "Cercaria", "Miracidium", "Egg"], c: 1},
+    {q: "759) Ground itch is caused by:", a: ["Ascaris", "Hookworm larvae", "Pinworm", "Whipworm"], c: 1},
+    {q: "760) The reservoir for Balantidium coli is usually:", a: ["Dogs", "Pigs", "Cats", "Birds"], c: 1},
+    {q: "761) E. histolytica trophozoites contain ingested:", a: ["Bacteria", "Red blood cells (RBCs)", "Starch granules", "Crystals"], c: 1},
+    {q: "762) The number of nuclei in a mature Entamoeba coli cyst is:", a: ["1", "4", "8", "2"], c: 2},
+    {q: "763) Flagyl (Metronidazole) is the drug of choice for:", a: ["Malaria", "Amoebiasis and Giardiasis", "Filariasis", "Tapeworms"], c: 1},
+    {q: "764) 'Falling leaf' motility is characteristic of:", a: ["E. histolytica", "Giardia lamblia trophozoite", "Trichomonas", "Balantidium"], c: 1},
+    {q: "765) Chyluria (milky urine) is seen in chronic:", a: ["Malaria", "Filariasis", "Leishmaniasis", "Amoebiasis"], c: 1},
+    {q: "766) Which parasite causes autoinfection?", a: ["Hookworm", "Strongyloides stercoralis and H. nana", "Ascaris", "Whipworm"], c: 1},
+    {q: "767) The vector for African Trypanosomiasis is:", a: ["Glossina", "Phlebotomus", "Triatoma", "Simulium"], c: 0},
+    {q: "768) Winterbottom's sign (swollen lymph nodes) is seen in:", a: ["Kala-azar", "African Sleeping Sickness", "Chagas disease", "Malaria"], c: 1},
+    {q: "769) The vector for Leishmania tropica (Oriental sore) is:", a: ["Louse", "Sandfly", "Tick", "Flea"], c: 1},
+    {q: "770) Malaria pigment is called:", a: ["Melanin", "Hemozoin", "Bilirubin", "Hemoglobin"], c: 1},
+    {q: "771) Crescent-shaped gametocytes are seen in:", a: ["P. vivax", "P. falciparum", "P. malariae", "P. ovale"], c: 1},
+    {q: "772) Ziemann's stippling is seen in RBCs infected with:", a: ["P. vivax", "P. malariae", "P. falciparum", "P. ovale"], c: 1},
+    {q: "773) The 'Dye Test' of Sabin-Feldman is used for:", a: ["Malaria", "Toxoplasmosis", "Leishmaniasis", "Amoebiasis"], c: 1},
+    {q: "774) 'Strawberry cervix' is characteristic of infection with:", a: ["Candida", "Trichomonas vaginalis", "Chlamydia", "Gonorrhea"], c: 1},
+    {q: "775) The portal of entry for Strongyloides is:", a: ["Ingestion", "Skin penetration", "Inhalation", "Insect bite"], c: 1},
+    {q: "776) Whiplash-like movement is seen in:", a: ["Hookworm", "Trichuris trichiura (Whipworm)", "Ascaris", "Pinworm"], c: 1},
+    {q: "777) The most common cause of Visceral Larva Migrans is:", a: ["Ascaris lumbricoides", "Toxocara canis", "Ancylostoma", "Strongyloides"], c: 1},
+    {q: "778) Which fluke is found in the lungs?", a: ["Fasciola hepatica", "Paragonimus westermani", "Clonorchis sinensis", "Schistosoma"], c: 1},
+    {q: "779) The 'string test' (Entero-test) can be used to diagnose:", a: ["Amoebiasis", "Giardiasis", "Ascariasis", "Hookworm"], c: 1},
+    {q: "780) The parasite that can cause vitamin B12 deficiency is:", a: ["Taenia solium", "Diphyllobothrium latum", "Hymenolepis nana", "Echinococcus"], c: 1},
+    {q: "781) The diagnostic stage of Schistosoma mansoni in stool is the:", a: ["Egg with terminal spine", "Egg with lateral spine", "Egg with no spine", "Cercaria"], c: 1},
+    {q: "782) The vector for Onchocerca volvulus (River blindness) is:", a: ["Sandfly", "Black fly (Simulium)", "Tsetse fly", "Mosquito"], c: 1},
+    {q: "783) The 'C' shaped microfilaria is:", a: ["W. bancrofti", "Loa loa", "Brugia malayi", "Mansonella"], c: 2},
+    {q: "784) Swimmer's itch is caused by:", a: ["Human schistosomes", "Bird schistosomes (cercariae)", "Hookworm", "Giardia"], c: 1},
+    {q: "785) Proglottids are segments of:", a: ["Nematodes", "Cestodes (Tapeworms)", "Trematodes", "Protozoa"], c: 1},
+    {q: "786) The number of uterine branches in Taenia saginata is:", a: ["7-13", "15-30", "Over 50", "Less than 5"], c: 1},
+    {q: "787) Bile-stained eggs are found in all EXCEPT:", a: ["Ascaris", "Hookworm", "Trichuris", "Taenia"], c: 1},
+    {q: "788) 'Step-ladder' pattern of fever is characteristic of early:", a: ["Malaria", "Typhoid fever", "Kala-azar", "Amoebiasis"], c: 1},
+    {q: "789) The term 'pioneer of tropical medicine' often refers to:", a: ["Robert Koch", "Patrick Manson", "Louis Pasteur", "Ronald Ross"], c: 1},
+    {q: "790) Ronald Ross discovered the transmission of malaria in:", a: ["London", "Secunderabad, India", "Paris", "Berlin"], c: 1},
+    {q: "791) Operculated eggs are produced by:", a: ["Ascaris", "Trematodes (except Schistosomes)", "Hookworm", "Pinworm"], c: 1},
+    {q: "792) The habitat of Fasciola hepatica is the:", a: ["Intestine", "Bile duct of the liver", "Lungs", "Bladder"], c: 1},
+    {q: "793) The infective stage of Fasciola hepatica to humans is:", a: ["Cercaria", "Metacercaria", "Miracidium", "Redia"], c: 1},
+    {q: "794) Chagas disease primarily affects the:", a: ["Lungs", "Heart and esophagus", "Liver", "Brain"], c: 1},
+    {q: "795) The scientific name for 'Vampire' amoeba that eats brain cells is:", a: ["Entamoeba", "Naegleria fowleri", "Acanthamoeba", "Balamuthia"], c: 1},
+    {q: "796) Acanthamoeba can cause infection in users of:", a: ["Eye glasses", "Contact lenses", "Hearing aids", "Walking sticks"], c: 1},
+    {q: "797) Cyclospora cayetanensis is associated with:", a: ["Water-borne outbreaks", "Contaminated raspberries", "Both A and B", "None of the above"], c: 2},
+    {q: "798) Isospora belli is now known as:", a: ["Cyclospora", "Cystoisospora belli", "Cryptosporidium", "Sarcocystis"], c: 1},
+    {q: "799) Sarcocystis is transmitted by eating undercooked:", a: ["Fish", "Beef or Pork", "Chicken", "Vegetables"], c: 1},
+    {q: "800) The most common parasite found in the appendix is:", a: ["Ascaris", "Enterobius vermicularis", "Hookworm", "Taenia"], c: 1}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

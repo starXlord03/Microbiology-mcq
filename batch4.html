@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 4 (Q301-400)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 4 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 4</h1>
+    <p>Questions 301 - 400</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "301) What is the pore size that a membrane attack complex can produce on cell membrane?", a: ["10 Å", "50 Å", "70 Å", "100 Å"], c: 3},
+    {q: "302) Which among the following is not a function of complement?", a: ["Phagocytosis", "Inflammatory response", "Antigen presentation", "Immune clearance"], c: 2},
+    {q: "303) Hereditary angioneurotic edema is due to deficiency of :", a: ["C1 inhibitor", "C1 and C2", "C5-C8", "C3b inactivator"], c: 0},
+    {q: "304) Individuals are more prone to gonococcal infection if there is a deficiency of :", a: ["C1 inhibitor", "C1 and C2", "C5-C8", "C9"], c: 2},
+    {q: "305) Which among the following is synthesised in intestinal epithelium?", a: ["C1", "C2", "C3", "C4"], c: 0},
+    {q: "306) The size of the pore produced on cell membrane by C5678 is :", a: ["10 Å", "50 Å", "70 Å", "100 Å"], c: 0}, 
+    {q: "307) All are secondary lymphoid organs EXCEPT :", a: ["Spleen", "Bone marrow", "Lymph node", "Mucosa-associated lymphoid tissue"], c: 1},
+    {q: "308) An individual starts to produce IgG in adequate levels at :", a: ["Birth", "6 months", "1 year", "2 years"], c: 1},
+    {q: "309) The thymus-dependent area of the lymph nodes is the :", a: ["Cortex", "Paracortical area", "Medulla", "Medullary cords"], c: 1},
+    {q: "310) Bloodborne antigens are primarily dealt with by :", a: ["Lymph nodes", "Macrophages", "Bone marrow", "Spleen"], c: 3},
+    {q: "311) Splenectomy in children leads to increased incidence of bacterial sepsis, predominantly by the following bacteria EXCEPT :", a: ["Pneumococci", "H.influenzae", "Staphylococci", "Meningococci"], c: 2},
+    {q: "312) The redominant immunoglobulin in the mucosa is :", a: ["IgA", "IgG", "IgM", "IgE"], c: 0},
+    {q: "313) All of the following statements are true of lymphocytes EXCEPT :", a: ["They constitute 20-40 per cent of the body's white blood cells.", "Recirculating lymphocytes are mainly T cells.", "Maturation of lymphocytes takes place in the peripheral lymphoid organs.", "Mature T and B cells, before they encounter antigens, are known as naive cells"], c: 2},
+    {q: "314) Which among the following is the marker for B cells?", a: ["CD1", "CD2", "CD3", "CD19"], c: 3},
+    {q: "315) Which among the following is a feature of a B cell?", a: ["Formation of EAC rosettes", "Blast transformation with phytohemagglutinin", "Adherence to glass surface", "No cytoplasmic surface projections"], c: 0},
+    {q: "316) The earliest identifiable T cell lineage cells are :", a: ["CD7 cells", "CD2 cells", "CD3 cells", "CD4 cells"], c: 0},
+    {q: "317) Which is true about plasma cells?", a: ["Centrally placed oval nucleus", "Golgi apparatus poorly developed", "Terminally differentiated cell", "Life"], c: 2},
+    {q: "318) Cachectin is secreted by :", a: ["Lymphocytes", "Macrophages", "Dendritic cells", "Langerhans cells"], c: 1},
+    {q: "319) All of the below are antigen-presenting cells EXCEPT :", a: ["Dendritic cells", "Macrophages", "B lymphocytes", "Mast cells"], c: 3},
+    {q: "320) HLA complex of genes are located on the :", a: ["Long arm of chromosome 6", "Short arm of chromosome 6", "Long arm of chromosome 8", "Short arm of chromosome 8"], c: 1},
+    {q: "321) Which of the following statements is true about HLA class I molecules?", a: ["It is a heterodimer.", "It is linked to a B microglobulin molecule coded by chromosome 14.", "There is a peptide binding groove between a 1 and Bl domains.", "They are present on almost all cells."], c: 3},
+    {q: "322) Which among the following is an important function of class III HLA region?", a: ["Graft rejection", "Graft versus host reaction", "Production of C2 and C4", "Mixed lymphocyte reaction"], c: 2},
+    {q: "323) MHC restriction is related to :", a: ["Antigen presentation by APCs to T cells", "Distribution of MHC in the population", "HLA typing done prior to transplantation", "Genetic predisposition to disease"], c: 0},
+    {q: "324) All of the following options are functions of cell-mediated immunity EXCEPT :", a: ["Defence against fungi", "Protection against extracellular bacteria", "Rejection of grafts", "Immunological surveillance"], c: 1},
+    {q: "325) Which among the following is true of primary immune response?", a: ["It is carried out by memory B cells.", "The predominant antibody is IgG.", "Peak response is in 3-5 days.", "A high dose of antigens is required."], c: 3},
+    {q: "326) Soluble antigens are removed from tissues by all of the following EXCEPT :", a: ["Phagocytosis", "Equilibration", "Metabolism", "Immune elimination"], c: 0},
+    {q: "327) Hybridomas are produced by fusing :", a: ["Lymphocytes and myeloma cells", "Thymocytes and myeloma cells", "Spleen cells and myeloma cells", "B cells and myeloma cells"], c: 3},
+    {q: "328) Basal culture medium for hybridoma production has all the following ingredients, Except :", a: ["Hypoxanthine", "Aminopterin", "Thymine", "Thymidine"], c: 2},
+    {q: "329) Immunological paralysis is seen when:", a: ["Antibodies are given multiple times.", "Antigens are given multiple times.", "Massive doses of antibodies are given.", "Massive doses of antigens are given."], c: 3},
+    {q: "330) IL1 is predominantly produced by:", a: ["T lymphocytes", "Macrophages", "Stromal cells", "NK cells"], c: 1},
+    {q: "331) Which of the following statements is true about cytokines?", a: ["It is always a polypeptide.", "It acts on protein targets.", "It takes part in intrinsic enzymatic reaction", "It acts like endocrine hormones."], c: 3},
+    {q: "332) Which among the following is an important endogenous pyrogen?", a: ["IL1", "IL2", "IL3", "1L4"], c: 0},
+    {q: "333) IL2 is produced by :", a: ["B cells", "T cells", "Monocytes", "neutrophils"], c: 1},
+    {q: "334) Which among the following has an influence on eosinophil growth and differentiation?", a: ["IL2", "IL4", "IL5", "IL"], c: 2},
+    {q: "335) Which interferon is produced by fibroblasts in tissue culture?", a: ["a-IFN", "B-IFN", "Y-IFN", "S-IFN"], c: 1},
+    {q: "336) Which among the following is a pro-inflammatory cytokine?", a: ["IL3", "ILS", "IL11", "IL17"], c: 3},
+    {q: "337) All of the following statements are true regarding transfer factor EXCEPT:", a: ["It transfers CMI passively.", "It produces systemic effect", "It is antigenic.", "It is inactivated at 56°C in 30 minutes"], c: 2},
+    {q: "338) The option which holds true for delayed hypersensitivity is:", a: ["Antibody-mediated", "Passive transfer possible with serum", "Induced by antigens through any route", "Desensitisation difficult, but long-lasting"], c: 3},
+    {q: "339) Which among the following is IgE-mediated hypersensitivity?", a: ["Type I", "Type II", "Type III", "Type IV"], c: 0},
+    {q: "340) Which among the following is reagin-dependent hypersensitivity?", a: ["Type 1", "Type II", "Type III", "Type IV"], c: 0},
+    {q: "341) The most important cells that mediate type I hypersensitivity reaction are :", a: ["Macrophages", "Mast cells", "Neutrophils", "NK cells"], c: 1},
+    {q: "342) All of the following are primary mediators of type 1 hypersensitivity reaction EXCEPT :", a: ["Histamine", "Prostaglandins", "Serotonin", "Chemotactic factors"], c: 1},
+    {q: "343) Shultz-Dale phenomenon is an example for :", a: ["Type I hypersensitivity", "Type II hypersensitivity", "Type III hypersensitivity.", "Type IV hypersensitivity."], c: 0},
+    {q: "344) Anaphylaxis is mediated by :", a: ["Immune complexes", "Cytotoxic antibodies", "Chemotactic factors", "Incomplete antibodies"], c: 1}, 
+    {q: "345) Which of the following is true of Shultz-Dale phenomenon?", a: ["Detects atopic antibodies", "Anaphylaxis in vitro", "Detects heterocytotropic IgG antibodies", "Detects cutaneous anaphylaxis"], c: 1},
+    {q: "346) Which of the following is not a mediator of anaphylaxis?", a: ["5-hydroxy tryptamine", "Leukotrienes", "Platelet activating factor", "Heparin"], c: 3},
+    {q: "347) Which antibody is predominantly involved in type II hypersensitivity reaction?", a: ["IgG", "IgM", "IgE", "IgA"], c: 0},
+    {q: "348) Autoimmune hemolytic anemia is an example of :", a: ["Type I hypersensitivity", "Type II hypersensitivity", "Type III hypersensitivity.", "Type IV hypersensitivity"], c: 1},
+    {q: "349) The false statement regarding serum sickness is :", a: ["It is seen following an injection of heterologous serum.", "A single injection can serve as both sensitising and shocking dose.", "It can result in glomerulonephritis.", "CD4 and CD8 cells play a central role in pathogenesis."], c: 3},
+    {q: "350) Delayed type hypersensitivity is best elicited by:", a: ["Parenteral route", "Inhalational route", "Intradermal route", "Enteral route"], c: 2},
+    {q: "351) All the following statements are true regarding Type IV hypersensitivity EXCEPT:", a: ["It is typically provoked by intracellular microbial infections.", "Cutaneous basophil hypersensitivity is an altered type IV hypersensitivity reaction", "It can be transferred passively by transfer factor.", "It is mediated by T cells and macrophages."], c: 2}, 
+    {q: "352) Tuberculin test is an example of:", a: ["Type I hypersensitivity", "Type II hypersensitivity", "Type III hypersensitivity", "Type IV hypersensitivity"], c: 3},
+    {q: "353) Which among the following is an example for Type IV hypersensitivity?", a: ["Contact dermatitis", "Cutaneous basophil hypersensitivity", "Waterhouse-Friderichsen syndrome", "Shwartzman reaction"], c: 0},
+    {q: "354) Which among the following is known as late onset hypogammaglobulinemia?", a: ["X-linked hypogammaglobulinemia", "Common variable immunodeficiency", "Selective immunoglobulin deficiency", "Chediak-Higashi syndrome"], c: 1},
+    {q: "355) All of the following are features of X-linked hypogammaglobulinemia EXCEPT :", a: ["The disease is evident after six months of life.", "Tonsils and adenoids are atrophic.", "Live vaccines should not be given.", "Patient presents with recurrent viral infections."], c: 3},
+    {q: "356) Which is the most common selective immunoglobulin deficiency?", a: ["IgG deficiency", "IgA deficiency", "IgM deficiency", "IgD deficiency"], c: 1},
+    {q: "357) Which of the following options is false about DiGeorge syndrome?", a: ["Aplasia of tonsils", "Associated with neonatal tetany", "Hereditary condition", "Thymus-dependent area of thymus poorly developed"], c: 2},
+    {q: "358) Chronic mucocutaneous candidiasis is a result of :", a: ["Humoral deficiency", "Cellular deficiency", "Complement deficiency", "Disorder of phagocytosis"], c: 1},
+    {q: "359) Which is a true statement regarding Wiskott-Aldrich syndrome?", a: ["Autosomal recessive condition", "T cell function normal", "IgM normal", "Inability to respond to polysaccharide antigen"], c: 3},
+    {q: "360) Hereditary angioneurotic edema is due to deficiency of :", a: ["C1", "C1 inhibitor", "C3 convertase", "C8"], c: 1},
+    {q: "361) Recurrent neisserial infections are common with deficiency of :", a: ["C1", "C3", "C5", "C8"], c: 3},
+    {q: "362) Cold staphylococcal abscess is a feature of :", a: ["Job's syndrome", "Hyper IgM syndrome", "Chediak-Higashi syndrome", "Chronic granulomatous disease"], c: 0},
+    {q: "363) Nitroblue tetrazolium test is useful to diagnose :", a: ["Myeloperoxidase deficiency", "Chronic granulomatous disease", "Leucocyte G6PD deficiency", "Chediak-Higashi syndrome"], c: 1},
+    {q: "364) Giant peroxidase positive inclusions are a feature of :", a: ["Myeloperoxidase deficiency", "Chronic granulomatous disease", "Leucocyte G6PD deficiency", "Chediak-Higashi syndrome"], c: 3},
+    {q: "365) All of the following are true about chronic granulomatous disease EXCEPT :", a: ["Phagocytosis is defective", "Recurrent infections with catalase negative organisms", "Decrease H, 0, production by phagocytes", "Defective degranulation following phagocytosis"], c: 3},
+    {q: "366) Nitroblue tetrazolium test detects deficiency of :", a: ["Myeloperoxidase", "NADPH reductase", "NADPH oxidase", "G6PO4 dehydrogenase"], c: 2},
+    {q: "367) Adenosine deaminase deficiency is seen in the following :", a: ["Common variable immunodeficiency", "Severe combined immunodeficiency", "Chronic granulomatous disease", "Nezelof syndrome"], c: 1},
+    {q: "368) An example for sequestered antigens responsible for an autoimmune condition is :", a: ["Drug-induced anemia", "Mumps", "Post-streptococcal glomerulonephritis", "Neurological injury after neural vaccine administration"], c: 3},
+    {q: "369) All of the following options are true about cold autoantibodies EXCEPT :", a: ["Incomplete antibodies", "Belong to IgM class", "Agglutinate erythrocytes at 4°C", "Seen in black water fever"], c: 0},
+    {q: "370) LE cell is a :", a: ["Macrophage", "Dendritic cell", "Neutrophil", "Lymphocyte"], c: 2},
+    {q: "371) All of the following are systemic autoimmune diseases EXCEPT :", a: ["Polyarteritis nodosa", "Sjogren's syndrome", "Rheumatoid arthritis", "Pernicious anemia"], c: 3},
+    {q: "372) All of the following are mechanisms for peripheral tolerance EXCEPT :", a: ["Anergy", "Phenotypic skewing", "Receptor editing", "Activation-induced cell death"], c: 2},
+    {q: "373) Orthotopic transplant refers to :", a: ["Graft placed in anatomically normal site", "Graft placed in anatomically abnormal site", "Grafts which act as scaffolding", "Grafts from a cadaver"], c: 0},
+    {q: "374) A 35-year-old man was diagnosed to have end stage renal disease. His identical twin brother volunteers to donate kidneys. What type of graft correctly describes the situation?", a: ["Isograft", "Allograft", "Xenograft", "Autograft"], c: 0},
+    {q: "375) Hyperacute rejection due to preformed antibodies can occur due to all EXCEPT :", a: ["Prior transplantation", "Previous transfusions", "Previous viral infections", "Multiple pregnancies"], c: 2},
+    {q: "376) Immunological enhancement results in:", a: ["Resistance to infections", "Removal of B and T cells", "Enhanced functioning of thymus", "Slowing down of graft rejection"], c: 3},
+    {q: "377) Eichwald-Silmser effect is :", a: ["Improved graft acceptance in genetically identical animals", "Unilateral sex-linked histoincompatability", "Unilateral sex-linked histocompatibility", "Enhanced rejection in inbred animals"], c: 1},
+    {q: "378) All of the following are examples for privileged sites EXCEPT:", a: ["Testes", "Cornea", "Spleen", "Cartilage."], c: 2},
+    {q: "379) All of the following are true regarding graft-versus-host disease EXCEPT :", a: ["The graft contains immunocompetent T cells", "The graft carries transplantation antigens that are absent in the recipient", "It is commonly seen after bone marrow transplant.", "The animal equivalent of graft-versus-host disease is Runt disease."], c: 1}, 
+    {q: "381) Regarding tumour antigens, all of the following are true EXCEPT:", a: ["In chemically induced tumours, the antigens are tumour-specific.", "In virus-induced tumours, the antigens are viral-specific.", "Tumour-associated antigens may be found in normal cells.", "CA125 is an oncofetal antigen."], c: 3},
+    {q: "382) The most common blood group is:", a: ["A", "B", "AB", "0"], c: 3},
+    {q: "383) Natural isoantibodies appear in the serum of human beings at the age of :", a: ["At birth", "Three months", "Six months", "Nine months"], c: 2},
+    {q: "384) All of the following statements regarding blood group antibodies are true EXCEPT :", a: ["Natural isoantibodies seen in A and B blood group persons are IgM in nature.", "Immune antibodies (following ABO incompatible pregnancy/transfusion) are IgG in nature.", "Natural anti-Rh antibodies are of IgM class.", "Natural isoantibodies in Ogroup individuals are predominantly IgG."], c: 2},
+    {q: "385) Which among the following best characterises Bombay blood group?", a: ["Antigens A and B present, H absent on RBCS", "Antigens A and B absent, H present on RBCS", "Antigens A, B and H present on RBCs", "Antigens A, B and H absent on RBCS"], c: 3},
+    {q: "386) The best method to detect Rh antibodies in serum is :", a: ["Direct Coombs test", "Indirect Coombs test", "Major cross match", "Minor cross match"], c: 1},
+    {q: "387) All of the following are transmitted through blood EXCEPT:", a: ["Mycobacterium", "Cytomegalovirus", "Toxoplasma", "Syphilis"], c: 0},
+    {q: "388) Thomsen-Freidenreich phenomenon is due to :", a: ["Rh antigens", "Cryptic antigens", "H antigens", "Du antigens"], c: 1},
+    {q: "389) The arrangement of staphylococci is :", a: ["In chains", "In clusters", "In pairs", "None of the above"], c: 1},
+    {q: "390) Which of the following statements is false about staphylococcal toxins?", a: ["Alpha hemolysin is cytolytic, which is inactivated at 70°C and reactivated at 100ºC.", "Beta hemolysin exhibits hot-cold phenomenon.", "Delta hemolysin is a sphingomyelinase.", "Panton-Valentine toxin is synergohymenotropic."], c: 2},
+    {q: "391) All of the following are toxin-mediated Staphylococcus aureus diseases EXCEPT :", a: ["Food poisoning", "Ritter's disease", "Intracranial thrombophlebitis", "Toxic shock syndrome"], c: 2},
+    {q: "392) All of the following statements are true of S.aureus food poisoning EXCEPT :", a: ["Incubation period is 2-6 hours.", "The source is meat and milk products.", "Heat labile enterotoxin is responsible.", "Type A toxin is responsible for most of the cases."], c: 2},
+    {q: "393) The most common site of S.aureus carriage is:", a: ["Hands", "Anterior nares", "Axilla", "Perineum"], c: 1},
+    {q: "394) 'Oil paint' appearance is characteristic of growth of Staphylococcus aureus on :", a: ["Nutrient agar", "MacConkey's agar", "Milk agar", "Ludlam medium"], c: 2},
+    {q: "395) Methicillin resistance in staphylococci is due to :", a: ["Mutation", "Production of beta lactamase", "Alteration in penicillin-binding protein", "Tolerance to the drug"], c: 2},
+    {q: "396) The most commonly encountered coagulase-negative staphylococci in human infections is :", a: ["Staph.epidermidis", "Staph.haemolyticus", "Staph.lugdunensis", "Staph.saprophyticus"], c: 0},
+    {q: "397) The Lancefield grouping of streptococci is based on :", a: ["Protein antigen", "Carbohydrate antigen", "Capsular antigen", "Teichoic acid antigen"], c: 1},
+    {q: "398) All of the following options are true about M protein of S.pyogenes EXCEPT :", a: ["It is responsible for virulence.", "It is heat- and acid-stable.", "It is used for typing streptococci.", "M protein is not antigenic."], c: 3},
+    {q: "399) Which streptococcal enzyme is responsible for the serous character of exudates?", a: ["Streptokinase", "Streptodornase", "Hyaluronidase", "Lipoproteinase"], c: 1}, 
+    {q: "400) The source of the streptokinase used for thrombolytic therapy is :", a: ["S.agalactiae", "S.equisimilis", "S.pyogenes", "S.mutans"], c: 1}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

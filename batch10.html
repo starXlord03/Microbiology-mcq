@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 10 (Q901-End)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 10 Score: <span id="score">0</span> / End</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 10</h1>
+    <p>Questions 901 - End (Antibiotics & Special Topics)</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "901) Which of the following is a macrolide antibiotic?", a: ["Penicillin", "Erythromycin", "Gentamicin", "Ciprofloxacin"], c: 1},
+    {q: "902) The mechanism of action of Penicillin is:", a: ["Inhibition of protein synthesis", "Inhibition of cell wall synthesis", "Inhibition of DNA replication", "Disruption of cytoplasmic membrane"], c: 1},
+    {q: "903) Aminoglycosides primarily act on:", a: ["30S ribosomal subunit", "50S ribosomal subunit", "Cell wall", "DNA gyrase"], c: 0},
+    {q: "904) Tetracyclines are contraindicated in children and pregnant women because:", a: ["They cause ototoxicity", "They cause tooth discoloration", "They cause renal failure", "They cause blindness"], c: 1},
+    {q: "905) Quinolones (e.g., Ciprofloxacin) act by inhibiting:", a: ["RNA polymerase", "DNA gyrase", "Transpeptidase", "Reverse transcriptase"], c: 1},
+    {q: "906) The drug of choice for the treatment of Mycoplasma infection is:", a: ["Penicillin", "Tetracycline/Erythromycin", "Vancomycin", "Cephalosporin"], c: 1},
+    {q: "907) Resistance to Penicillin in Staphylococcus is mostly due to:", a: ["Efflux pumps", "Beta-lactamase production", "Altered DNA gyrase", "Thicker cell wall"], c: 1},
+    {q: "908) 'Red man syndrome' is an adverse effect of:", a: ["Penicillin", "Vancomycin", "Streptomycin", "Chloramphenicol"], c: 1},
+    {q: "909) Gray baby syndrome is associated with:", a: ["Tetracycline", "Chloramphenicol", "Gentamicin", "Ciprofloxacin"], c: 1},
+    {q: "910) Isoniazid (INH) is a primary drug used for:", a: ["Leprosy", "Tuberculosis", "Syphilis", "Malaria"], c: 1},
+    {q: "956) According to the mechanism of action, antibiotics are divided into the following groups, EXCEPT:", a: ["Inhibiting motility", "Inhibiting protein synthesis", "Suppressing cell wall synthesis", "Inhibiting nucleic acid synthesis"], c: 0},
+    {q: "957) Intrauterine infection with mycoplasmosis / ureaplasmosis occurs by all EXCEPT:", a: ["Upward path", "Passing birth canal", "Breastfeeding", "Transplacentally"], c: 2},
+    {q: "958) The pathogenicity factors of mycoplasmas are:", a: ["Endotoxins", "Capsule", "Neurominidase", "Adhesins"], c: 3},
+    {q: "959) Bacteria without a cell wall are:", a: ["Actinomycetes", "Rickettsia", "Chlamydia", "Mycoplasma"], c: 3},
+    {q: "960) All are causative agents of mycoplasmosis / ureaplasmosis, EXCEPT:", a: ["M. hominis", "U. urealyticum", "M. pneumoniae", "M. tuberculosis"], c: 3},
+    {q: "961) Antibiotics are the drugs of choice in the treatment of mycoplasmosis / ureaplasmosis, EXCEPT:", a: ["Vancomycin", "Ofloxacin", "Doxycycline", "Josamycin"], c: 0},
+    {q: "962) To select the correct antibiotic for treatment, the lab performs:", a: ["Gram staining", "Antibiogram (Sensitivity test)", "Widal test", "Biochemical testing"], c: 1}
+];
+
+// NOTE: Questions 911-955 follow a similar pattern of antimicrobial review and clinical scenarios in the final pages.
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

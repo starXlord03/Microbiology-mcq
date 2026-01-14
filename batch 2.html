@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 2 (Q101-200)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 2 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 2</h1>
+    [span_1](start_span)<p>Questions 101 - 200[span_1](end_span)</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "101) Most often, candidiasis is caused by:", a: ["C. albicans", "C. parapsilosis", "C. krusei", "C. tropicalis"], c: 0},
+    {q: "102) The source and factors of transmission of pathogens of dermatophytoses are the following, except:", a: ["animals", "syringes and needles", "barber tools", "sick people", "the soil"], c: 1},
+    {q: "103) The causative agents of dermatophytoses are transmitted:", a: ["By contact", "By blood sucking insecta", "By airborne droplets", "By food"], c: 0},
+    {q: "104) In case of dermatophytoses, the material for research is everything except:", a: ["fingernails", "hair", "sputum", "scrapings from the skin"], c: 2},
+    {q: "105) For prophylaxis of trichomonosis is used:", a: ["Inactivated vaccine", "Safe sex", "Toxoid", "Live vaccine"], c: 1},
+    {q: "106) Causative agents of malaria are transsmitted by biting of:", a: ["Lice", "Moscuites", "Ticks", "Fleas"], c: 1},
+    {q: "107) Causative agents of malaria have organs of movement:", a: ["Absent", "Pseudopodia", "Flagella", "Cilia"], c: 0},
+    {q: "108) Cultural properties of C. albicans:", a: ["The ability to grow dimorphic at 20 °C and 37 °C", "Formation of S-type colonies on solid media", "Ability to grow on Robertson's cooked meat broth", "Formation on solid media R type colonies"], c: 1},
+    {q: "109) The main medium for the isolation of fungi is:", a: ["Sabouraud agar", "Meat peptone agar", "Robertson's cooked meat broth", "MacConkey agar"], c: 0},
+    {q: "110) In which room of pharmacies is it permissible to detect Staphylococcus aureus in the air:", a: ["Assistant", "Washing", "Aseptic unit", "Service Hall"], c: 3},
+    {q: "111) Causative agent of toxoplasmosis is not transmitted:", a: ["By sexual contact", "By eating of undercooked meat", "By contact with cats", "Congenitally"], c: 0},
+    {q: "112) For the treatment of malaria is used:", a: ["Chloroquine", "Metronidazole", "Nystatin", "Anti-toxic serum"], c: 0},
+    {q: "113) The clinical manifestations of candidiasis are as follows, except:", a: ["Vaginitis", "Conjunctivitis", "Bronchopulmonary candidiasis", "Intestinal candidiasis", "Cutaneous candidiasis"], c: 1},
+    {q: "114) For the treatment of trichomonosis is used:", a: ["Isoniazid", "Specific immunoglobulin", "Streptomycin", "Metronidazole"], c: 3},
+    {q: "115) For specific prophylaxis of toxoplasmosis is used:", a: ["Inactivated vaccine", "Toxoid", "Not developed", "Live vaccine"], c: 2},
+    {q: "116) The condition, when bacteria multiply in the blood, is called:", a: ["Virusemia", "Septicopyomia", "Sepsis", "Bacteremia"], c: 2},
+    {q: "117) Relapse is called:", a: ["Return of the disease due to remaining pathogens in the body", "Disease that occurs after a previous infection with a second infection with the same pathogen", "Disease caused by human infection with the same pathogen before recovery", "Disease caused by infection with a new pathogen in the background of an unfinished initial infectious disease"], c: 0},
+    {q: "118) What statement about the properties of exotoxins is incorrect:", a: ["By chemical nature - proteins", "Low in toxicity", "Highly toxic", "Possess organotropicity"], c: 1},
+    {q: "119) What statement about the properties of endotoxins is incorrect:", a: ["Less toxic", "Highly toxic", "Thermostable", "On the chemical structure - lipopolysaccharides"], c: 1},
+    {q: "120) Reinfection is called:", a: ["Disease that occurs after a previous infection with a second infection with the same pathogen", "Return of the disease due to remaining pathogens in the body", "Disease caused by infection with a new pathogen in the background of an unfinished initial infectious disease", "Disease caused by human infection with the same pathogen before recovery"], c: 0},
+    {q: "121) Antitoxins (antitoxic sera) are used for:", a: ["For the treatment of viral infections", "For the prevention of fungal infections", "For the treatment of bacterial infections", "For the prevention of infections, caused by protozoa"], c: 2},
+    {q: "122) Toxoids are prepared of:", a: ["attenuated strains of microbes", "exotoxins of bacteria in non-toxic form", "inactivated cultures of microbes", "endotoxins of bacteria"], c: 1},
+    {q: "123) Vaccines made from live microbes or viruses that have lost virulence factors but retained immunogenic properties:", a: ["Attenuated vaccines", "Molecular vaccines", "Killed vaccines", "Anatoxins"], c: 0},
+    {q: "124) Preparations named immunoglobulins are used for:", a: ["Treatment of infectious diseases", "Diagnosis of infectious diseases", "Specific prevention of infectious diseases", "Vaccine production"], c: 2},
+    {q: "125) Vaccines are used for:", a: ["For the prevention of allergic reactions", "For the treatment of food poisonings", "For the specific prevention of infectious diseases", "For the diagnosis of infectious diseases"], c: 2},
+    {q: "126) The reservoir of the causative agent of anthrax is:", a: ["Bloodsucking insects", "Birds", "Cattle", "A sick person"], c: 2},
+    {q: "127) Morphological and staining properties of causative agent of anthrax include:", a: ["Gram-negative diplococci of the bean-shaped form", "Gram-positive rods", "Gram-positive cocci", "Gram-negative rods"], c: 1},
+    {q: "128) Antigens of the causative agent of anthrax in products from contaminated raw materials (fur, leather, wool), cadaveric material are detected by the test:", a: ["Vidal", "Wasserman", "Haddelson", "Ascoli"], c: 3},
+    {q: "129) Morphological and staining properties of the causative agent of anthrax DO NOT include:", a: ["Motile by flagella", "Formation of a capsule", "Gram-positive rods arranged in a chain", "Forms a centrally located spore whose diameter does not exceed the diameter of the cell"], c: 0},
+    {q: "130) Transmission of anthrax causative agent is NOT carried out by:", a: ["Airborne dust", "Sexual Way", "Food", "Contact"], c: 1},
+    {q: "131) Morphological and staining properties of the causative agent of syphilis:", a: ["Motile helical bacteria with small primary and large secondary curls and curved ends in the form of the letter 'C' and 'S'", "Movable convoluted spiral-shaped bacteria with regular curls. According to Romanovsky-Giemsa stained in pale pink color", "Gram-negative, convoluted bacteria, arranged in groups in the form of 'flying seagull wings'", "Spiral bacteria with large irregular curls and with pointed ends. They are painted by Romanovsky-Giemsa in blue-violet color"], c: 1},
+    {q: "132) Syphilis is characterized by the following features, except:", a: ["Long lasting resistant immunity", "The formation of 'hard chancre'", "Disease has 3 stages", "High contagiousness"], c: 0},
+    {q: "133) Morphological and staining properties of gonococci include:", a: ["Mobility", "Gram-positive diplococci of the lanceolate form", "Gram-negative diplococci of the bean-shaped form", "Spore formation"], c: 2},
+    {q: "134) The main factor of pathogenicity of gonococci is:", a: ["Endotoxin", "Leucocidin", "Exfoliatin", "Erythrogenin"], c: 0},
+    {q: "135) The main pathogenicity factor of the causative agent of diphtheria is:", a: ["Capsule", "Flagella", "Exotoxin", "Endotoxin"], c: 2},
+    {q: "136) The causative agents of tuberculosis grow on the medium:", a: ["MacConkey", "Lowenstein-Jensen", "Nutrient agar", "Robertson's cooked meat medium", "Bordet Gengou"], c: 1},
+    {q: "137) For the treatment of diphtheria is used:", a: ["Specific bacteriophage", "Anti-toxic serum", "Toxoid", "Sulfonamides"], c: 1},
+    {q: "138) For the treatment of tuberculosis, the following drugs are used, except:", a: ["Rifampicin", "Isoniazid", "Streptomycin", "Ethambutol", "Metronidazole"], c: 4},
+    {q: "139) To diagnose diseases caused by pathogenic E. coli, the inoculation of feces is carried out:", a: ["on bismuth sulfite agar", "MacConkey's medium", "on blood agar", "on alkaline agar", "on salt agar"], c: 1},
+    {q: "140) H-antigen of enterobacteriaceae is a part of:", a: ["capsules", "plasma membrane", "saw", "cell wall", "flagella"], c: 4},
+    {q: "141) Pathogenic escherichias are differentiated from opportunistic:", a: ["by the ability to ferment lactose", "by color of colonies on Endo medium", "by the ability to ferment glucose", "by antigenic properties"], c: 3},
+    {q: "142) Lactose fermentation is typical for:", a: ["S.typhi", "E. coli", "S.typhimurium", "Sh.flexneri"], c: 1},
+    {q: "143) For the treatment of botulism is used:", a: ["Specific bacteriophages", "Isoniazid", "Anti-toxic serum", "Pyrazinamide", "Toxoid"], c: 2},
+    {q: "144) Cultural properties of the causative agent of botulism:", a: ["Aerobic, grows on simple nutrient media", "Strict anaerobic, grows on RCM broth", "Strict aerobic.Grows on MacConkey medium", "Aerobic, grows on basal nutrient media", "Strict aerobic. Grows on blood glucose agar"], c: 1},
+    {q: "145) For specific prevention of botulism, the following is used:", a: ["Live vaccine", "Toxoid", "Immunoglobulin", "Bacteriophage", "Killed vaccine"], c: 1},
+    {q: "146) The causative agent of botulism releases the following toxin:", a: ["Dermonecrotoxin", "Leukocidin", "Hemolysin", "Enterotoxin", "Neurotoxin"], c: 4},
+    {q: "147) For the treatment of influenza, the following drugs are used, except:", a: ["Interferon", "Immunoglobulin", "Ozeltamivir", "Metronidazole", "Rimantadin"], c: 3},
+    {q: "148) The causative agents of influenza epidemics are more often influenza viruses:", a: ["Type E", "Type B", "Type A", "Type D"], c: 2},
+    {q: "149) For the prophylaxis of influenza, the following drugs are used, except:", a: ["Molecular vaccines", "Inactivated vaccines", "Toxoid", "Live vaccines"], c: 2},
+    {q: "150) Prevention of hepatitis D:", a: ["immunoglobulin", "compliance with the rules of personal and public hygiene", "hepatitis B vaccination", "hepatitis A vaccination", "interferon"], c: 2},
+    {q: "151) Routes of transmission for hepatitis C (all are true except):", a: ["by infected water", "by sexual contact", "blood transfusion", "tatoo procedure", "from mother to fetus"], c: 0},
+    {q: "152) Hepatitis E is most unfavorable in:", a: ["young children", "school children and adolescents", "elderly patients", "pregnant women"], c: 3},
+    {q: "153) Possible outcomes of the disease with hepatitis B (all are true, except):", a: ["infertility", "chronic active hepatitis", "recovery with the formation of lifelong immunity", "cirrhosis", "liver carcinoma"], c: 0},
+    {q: "154) Routes of transmission for hepatitis A (all are true, except):", a: ["through dirty hands", "from mother to fetus", "through household items of the patient", "with infected water", "with infected foods"], c: 1},
+    {q: "155) The clinical manifestations of candidiasis include the following, with the exception of:", a: ["Conjunctivitis", "Systemic candidiasis", "Superficial candidiasis", "Visceral candidiasis"], c: 0},
+    {q: "156) The causative agents of dermatomycoses are the following, with the exception of:", a: ["Histoplasma capsulatum", "Epidermophyton floccosum", "Microsporum canis", "Trichophyton rubrum"], c: 0},
+    {q: "157) In case of dermatomycoses, the material for research is not:", a: ["nails", "hair", "skin scrapings", "sputum"], c: 3},
+    {q: "158) All of the following statements about carbohydrate antigens are true EXCEPT:", a: ["They do not require stimulation by T cells.", "It has lower immunogenicity.", "Memory response is seen.", "They cause polyclonal B cell stimulation"], c: 2},
+    {q: "159) The causative agents of dermatophytoses are the following species, except:", a: ["Trichophyton rubrum", "Histoplasma capsulatum", "Microsporum canis", "Epidermophyton floccosum"], c: 1},
+    {q: "160) The causative agent of Lyme disease is:", a: ["Mycobacterium avium", "Borrelia reccurentis", "Borrelia burgdorferi", "Brucella melitensis"], c: 2},
+    {q: "161) Mycoplasmas are the only bacteria among prokaryotes that do not contain:", a: ["Nucleoid", "Cell wall", "Cytoplasm", "Ribosomes"], c: 1},
+    {q: "162) Deep (systemic) mycoses are caused by species of fungi, except:", a: ["Histoplasma capsulatum", "Blastomyces dermatidis", "Coccidioides immitis", "Cryptococcus neoformans", "Epidermophyton floccosum"], c: 4},
+    {q: "163) Chlamydia properties:", a: ["Conditionally pathogenic microbes", "Saprophytic bacteria", "Facultative intracellular parasites", "Obligate intracellular parasites"], c: 3},
+    {q: "164) For the treatment of malaria is used:", a: ["Chloroquine", "Nystatin", "Metronidazole", "Anti-toxic serum"], c: 0},
+    {q: "165) The main medium for the isolation of fungi is:", a: ["Sabouraud agar", "Robertson's cooked meat broth", "MacConkey agar", "Meat peptone agar"], c: 0},
+    {q: "166) Morphology of Entamoeba histolytica is as follows except:", a: ["Moving with pseudopodia", "Nucleolus presence", "Moving with cilia", "Cyst formation"], c: 2},
+    {q: "167) Cultural properties of C. albicans:", a: ["Ability to grow on Robertson's cooked meat broth", "Formation of S-type colonies on solid media", "The ability to grow dimorphic at 20 °C and 37 °C", "Formation on solid media R type colonies"], c: 1},
+    {q: "168) The morphological and cultural properties of the causative agent of toxoplasmosis are as follows, except for:", a: ["Boat-shaped cells", "Moving with flagella", "Intracellular parasitism", "Cyst formation"], c: 1},
+    {q: "169) Causative agent of toxoplasmosis is not transmitted:", a: ["By contact with cats", "By sexual contact", "By eating of undercooked meat", "Congenitally"], c: 1},
+    {q: "170) The main medium for the isolation of fungi is:", a: ["Sabouraud agar", "Robertson's cooked meat broth", "MacConkey agar", "Meat peptone agar"], c: 0},
+    {q: "171) Morphology of Entamoeba histolytica is as follows except:", a: ["Moving with pseudopodia", "Nucleolus presence", "Moving with cilia", "Cyst formation"], c: 2},
+    {q: "172) Cultural properties of C. albicans:", a: ["Ability to grow on Robertson's cooked meat broth", "Formation of S-type colonies on solid media", "The ability to grow dimorphic at 20 °C and 37 °C", "Formation on solid media R type colonies"], c: 1},
+    {q: "173) The morphological and cultural properties of the causative agent of toxoplasmosis are as follows, except for:", a: ["Boat-shaped cells", "Moving with flagella", "Intracellular parasitism", "Cyst formation"], c: 1},
+    {q: "174) Causative agent of toxoplasmosis is not transmitted:", a: ["By contact with cats", "By sexual contact", "By eating of undercooked meat", "Congenitally"], c: 1},
+    {q: "175) The causative agents of dermatophytoses are transmitted:", a: ["By blood sucking insecta", "By food", "By airborne droplets", "By contact"], c: 3},
+    {q: "176) Subcutaneous mycoses are caused by fungi:", a: ["Cryptococcus neoformans", "Trichophyton rubrum", "Candida albicans", "Madurella mycetomatis"], c: 3},
+    {q: "177) The causative agent of leptospirosis is not transmitted:", a: ["By contact", "By food", "By ticks", "By water"], c: 2},
+    {q: "178) The causative agent of syphilis is not transmitted:", a: ["By blood transfusion", "Congenitally", "By sexual contact", "By food", "By contact"], c: 3},
+    {q: "179) H. pylori causes lesions on mucosa of:", a: ["Eye", "Stomach", "Oral cavity", "Genitourinary system"], c: 1},
+    {q: "180) The source and factors of transmission of pathogens of dermatophytoses are the following, except:", a: ["sick people", "barber tools", "the soil", "syringes and needles", "animals"], c: 3},
+    {q: "181) C. trachomatis causes the following diseases, except:", a: ["Trachoma", "Infant pneumonia", "Psittacosis", "Genital infections"], c: 2},
+    {q: "182) For the treatment of giardiasis is used:", a: ["Metronidazole", "Penicillin", "Isoniazid", "Flukonazol"], c: 0},
+    {q: "183) Most often, candidiasis is caused by:", a: ["C. krusei", "C. tropicalis", "C. albicans", "C. parapsilosis"], c: 2},
+    {q: "184) The carriers of the causative agent of Lyme disease are:", a: ["Mosquitoes", "Lice", "Fleas", "Ticks"], c: 3},
+    {q: "185) In case of dermatophytoses, the material for research is everything except:", a: ["hair", "sputum", "scrapings from the skin", "fingernails"], c: 1},
+    {q: "186) For the treatment of trichomonosis is used:", a: ["Isoniazid", "Metronidazole", "Streptomycin", "Specific immunoglobulin"], c: 1},
+    {q: "187) What is typical for primary syphilis:", a: ["gummata", "hard chancre", "skin rashes", "general paralysis"], c: 1},
+    {q: "188) The morphological properties of the causative agent of giardiasis are as follows, except for:", a: ["Ability to form cysts", "Moving with pseudopodia", "Suction disc", "Pear shaped trophozoites"], c: 1},
+    {q: "189) The clinical manifestations of candidiasis are as follows, except:", a: ["Intestinal candidiasis", "Vaginitis", "Bronchopulmonary candidiasis", "Conjunctivitis", "Cutaneous candidiasis"], c: 3},
+    {q: "190) Localization of giardia in the human body:", a: ["spleen", "blood", "skin cells", "duodenum"], c: 3},
+    {q: "191) The reservoir of causative agens of leptospirosis are all, except:", a: ["Cattle", "Mosquitoes", "Rodents", "Horses"], c: 1},
+    {q: "192) All of the following are Koch's postulates EXCEPT:", a: ["The bacterium should be constantly associated with the lesions of the disease caused by it.", "It should be possible to isolate the bacterium in pure culture from the lesions.", "Inoculation of such pure cultures into suitable laboratory animals should reproduce the disease.", "The bacterium need not be re-isolated in pure culture from lesions produced in experimental animals."], c: 3},
+    {q: "193) The first scientist to have observed bacteria using a single-lens microscope is:", a: ["Edward Jenner", "Antony Van Leeuwenhoek", "Alexander Fleming", "Louis Pasteur"], c: 1},
+    {q: "194) Who is the father of antiseptic surgery?", a: ["Robert Koch", "Paul Ehrlich", "Joseph Lister", "Alexander Fleming"], c: 2},
+    {q: "195) All of the following are the contributions of Louis Pasteur EXCEPT:", a: ["Introduced sterilisation techniques", "Developed the vaccine for hydrophobia", "Introduced antiseptic techniques in surgery", "Established the differing growth needs of different bacteria"], c: 2},
+    {q: "196) All of the following are components of the cell wall of Gram-negative bacteria EXCEPT:", a: ["Peptidoglycan", "Lipopolysaccharide", "Outer membrane", "Teichoic acid"], c: 3},
+    {q: "197) All of the following are true for lipopolysaccharide EXCEPT:", a: ["It has three regions 0 polysaccharide, core polysaccharide and lipid A.", "Lipid A is responsible for endotoxic activities.", "It forms an integral part of the Gram-positive cell wall.", "It has 0 antigen specificity."], c: 2},
+    {q: "198) Peritrichous arrangement refers to:", a: ["Single flagellum at one pole", "Flagella all around the cell", "Flagella at both poles", "Tufts of flagella at one pole"], c: 1},
+    {q: "199) The organ of adhesion in bacteria is:", a: ["Flagella", "Fimbriae", "Capsule", "Mesosomes"], c: 1},
+    {q: "200) Bacteria growing at temperatures below 20°C are:", a: ["Mesophiles", "Thermophiles", "Psychrophiles", "Capnophiles"], c: 2}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

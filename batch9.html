@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 9 (Q801-900)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 9 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 9</h1>
+    <p>Questions 801 - 900 (Clinical Diagnostics & Bacteriology)</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "801) The method of choice for sterilization of surgical instruments is:", a: ["Boiling", "Autoclaving", "Hot air oven", "Chemical disinfection"], c: 1},
+    {q: "802) Blood culture is most useful during the first week of:", a: ["Cholera", "Typhoid fever", "Bacillary dysentery", "Amoebiasis"], c: 1},
+    {q: "803) The recommended transport medium for stool samples containing Vibrio cholerae is:", a: ["Stuart's medium", "Venkatraman-Ramakrishnan (VR) medium", "Buffered glycerol saline", "Selenite F broth"], c: 1},
+    {q: "804) 'Satellitism' on blood agar is a characteristic of:", a: ["Staphylococcus aureus", "Haemophilus influenzae", "Streptococcus pyogenes", "Neisseria"], c: 1},
+    {q: "805) The primary reservoir of Yersinia pestis is:", a: ["Human", "Wild rodents", "Domestic cats", "Cattle"], c: 1},
+    {q: "806) Which of the following is an acid-fast organism?", a: ["Staphylococcus", "Mycobacterium tuberculosis", "Escherichia coli", "Bacillus anthracis"], c: 1},
+    {q: "807) The most common mode of transmission for Legionella pneumophila is:", a: ["Person-to-person", "Aerosolized water/air conditioning", "Fecal-oral", "Tick bite"], c: 1},
+    {q: "808) Which bacterium is associated with gastric ulcers?", a: ["Campylobacter jejuni", "Helicobacter pylori", "Salmonella Typhi", "Shigella sonnei"], c: 1},
+    {q: "809) Urea breath test is used for the diagnosis of:", a: ["Proteus infection", "Helicobacter pylori", "Klebsiella pneumoniae", "E. coli"], c: 1},
+    {q: "810) The toxin of Clostridium tetani acts on:", a: ["Neuromuscular junction", "Inhibitory interneurons in the spinal cord", "Intestinal epithelium", "Red blood cells"], c: 1},
+    {q: "811) The most sensitive method for detecting M. tuberculosis in clinical samples is:", a: ["ZN stain", "Auramine-Rhodamine stain", "Gram stain", "Albert stain"], c: 1},
+    {q: "812) Lowenstein-Jensen (LJ) medium is used for the growth of:", a: ["Corynebacterium", "Mycobacterium", "Bacillus", "Streptococcus"], c: 1},
+    {q: "813) The reaction used to detect the presence of the capsule in Streptococcus pneumoniae is:", a: ["Quellung reaction", "Nagler reaction", "Widal reaction", "Elek test"], c: 0},
+    {q: "814) Waterhouse-Friderichsen syndrome is a severe complication of:", a: ["Gonorrhea", "Meningococcal meningitis", "Pneumococcal pneumonia", "Syphilis"], c: 1},
+    {q: "815) The causative agent of 'malignant pustule' is:", a: ["Staphylococcus aureus", "Bacillus anthracis", "Streptococcus pyogenes", "Pseudomonas aeruginosa"], c: 1},
+    {q: "816) Stormy fermentation in litmus milk is characteristic of:", a: ["Clostridium tetani", "Clostridium perfringens", "Clostridium botulinum", "Bacillus cereus"], c: 1},
+    {q: "817) Gas gangrene is primarily caused by:", a: ["Clostridium perfringens", "Clostridium difficile", "Clostridium tetani", "Bacillus anthracis"], c: 0},
+    {q: "818) The causative agent of 'Woolsorter's disease' is:", a: ["Brucella", "Bacillus anthracis", "Coxiella burnetii", "Mycobacterium bovis"], c: 1},
+    {q: "819) For the diagnosis of Syphilis, the specific treponemal test is:", a: ["VDRL", "TPI (Treponema pallidum immobilization)", "RPR", "Kahn test"], c: 1},
+    {q: "820) Condylomata lata are lesions found in:", a: ["Primary syphilis", "Secondary syphilis", "Tertiary syphilis", "Congenital syphilis"], c: 1},
+    {q: "821) The 'Swarming' phenomenon is characteristic of which genus?", a: ["Salmonella", "Proteus", "Shigella", "Escherichia"], c: 1},
+    {q: "822) Which organism causes 'Friedlander's pneumonia'?", a: ["Streptococcus", "Klebsiella pneumoniae", "Mycoplasma", "Legionella"], c: 1},
+    {q: "823) The Widal test detects antibodies against:", a: ["O and H antigens of Salmonella", "Capsular antigens of Pneumococcus", "Toxins of Diphtheria", "Flagella of E. coli"], c: 0},
+    {q: "824) Bacillary dysentery is caused by:", a: ["Entamoeba histolytica", "Shigella species", "Salmonella", "Vibrio"], c: 1},
+    {q: "825) The characteristic 'Rice water' stool is seen in:", a: ["Typhoid", "Cholera", "Amoebiasis", "Giardiasis"], c: 1},
+    {q: "826) TCBS agar is a selective medium for:", a: ["Salmonella", "Vibrio cholerae", "Shigella", "Staphylococcus"], c: 1},
+    {q: "827) Which bacterium shows 'Chinese letter' arrangement?", a: ["Bacillus anthracis", "Corynebacterium diphtheriae", "Mycobacterium leprae", "Streptococcus"], c: 1},
+    {q: "828) Metachromatic granules (Volutin) are found in:", a: ["Mycobacterium", "Corynebacterium diphtheriae", "Bacillus", "Clostridium"], c: 1},
+    {q: "829) Albert's staining is used to demonstrate:", a: ["Capsule", "Metachromatic granules", "Spores", "Flagella"], c: 1},
+    {q: "830) The toxigenicity of C. diphtheriae is tested by:", a: ["Schick test", "Elek's gel precipitation test", "Dick test", "Widal test"], c: 1},
+    {q: "831) The infectious dose for Shigella is:", a: ["High (over 10^5 cells)", "Low (10-100 cells)", "Moderate", "Requires a carrier"], c: 1},
+    {q: "832) The most common cause of traveler's diarrhea is:", a: ["ETEC (Enterotoxigenic E. coli)", "EHEC", "Shigella", "Salmonella"], c: 0},
+    {q: "833) Which E. coli is associated with Hemolytic Uremic Syndrome (HUS)?", a: ["ETEC", "EHEC (O157:H7)", "EPEC", "EIEC"], c: 1},
+    {q: "834) Weil's disease is a severe form of:", a: ["Brucellosis", "Leptospirosis", "Lyme disease", "Relapsing fever"], c: 1},
+    {q: "835) The vector for Lyme disease is:", a: ["Louse", "Ixodes tick", "Rat flea", "Mosquito"], c: 1},
+    {q: "836) Which of the following is a zoonotic disease?", a: ["Diphtheria", "Brucellosis", "Typhoid", "Cholera"], c: 1},
+    {q: "837) The 'Undulant fever' is characteristic of:", a: ["Typhoid", "Brucellosis", "Malaria", "Tuberculosis"], c: 1},
+    {q: "838) Bordet-Gengou medium is used for the isolation of:", a: ["Haemophilus", "Bordetella pertussis", "Brucella", "Pasteurella"], c: 1},
+    {q: "839) Whooping cough is caused by:", a: ["Haemophilus influenzae", "Bordetella pertussis", "Streptococcus", "Adenovirus"], c: 1},
+    {q: "840) Soft chancre (chancroid) is caused by:", a: ["Treponema pallidum", "Haemophilus ducreyi", "Chlamydia", "Neisseria"], c: 1},
+    {q: "841) The primary cause of 'Blue-pus' in infections is:", a: ["Staphylococcus", "Pseudomonas aeruginosa", "Serratia marcescens", "Proteus"], c: 1},
+    {q: "842) Which organism is often a contaminant in ventilators and IV lines?", a: ["Staphylococcus", "Pseudomonas aeruginosa", "Bacillus subtilis", "Mycobacterium"], c: 1},
+    {q: "843) Bubonic plague is transmitted by the bite of:", a: ["Ixodes tick", "Xenopsylla cheopis (Rat flea)", "Pediculus humanus", "Anopheles"], c: 1},
+    {q: "844) The 'Safety-pin' appearance on Giemsa stain is typical of:", a: ["Bacillus", "Yersinia pestis", "Corynebacterium", "Mycobacterium"], c: 1},
+    {q: "845) Trachoma, the leading cause of preventable blindness, is caused by:", a: ["Chlamydia trachomatis", "Neisseria gonorrhoeae", "Staphylococcus", "Haemophilus"], c: 0},
+    {q: "846) The most common cause of community-acquired pneumonia is:", a: ["Staphylococcus aureus", "Streptococcus pneumoniae", "Mycoplasma", "Klebsiella"], c: 1},
+    {q: "847) Which bacterium is used as a biological indicator for ethylene oxide sterilization?", a: ["B. stearothermophilus", "B. subtilis var. niger", "B. anthracis", "Cl. tetani"], c: 1},
+    {q: "848) Pyocyanin is a pigment produced by:", a: ["Serratia", "Pseudomonas aeruginosa", "Staphylococcus", "Micrococcus"], c: 1},
+    {q: "849) Nagler's reaction detects the production of:", a: ["Lecithinase", "Hyaluronidase", "Coagulase", "Catalase"], c: 0},
+    {q: "850) The main source of infection in Botulism is:", a: ["Water", "Canned food/Honey", "Respiratory droplets", "Soil contact"], c: 1},
+    {q: "851) Tuberculin test (Mantoux) is an example of which hypersensitivity?", a: ["Type I", "Type IV (Delayed)", "Type II", "Type III"], c: 1},
+    {q: "852) Leprosy is also known as:", a: ["Hansen's disease", "Koch's disease", "Weil's disease", "Whipple's disease"], c: 0},
+    {q: "853) Lepromin test is useful for:", a: ["Diagnosing leprosy", "Classification and prognosis of leprosy", "Testing drug resistance", "Detecting carriers"], c: 1},
+    {q: "854) The most common site for a carrier of Salmonella Typhi is:", a: ["Blood", "Gall bladder", "Spleen", "Lungs"], c: 1},
+    {q: "855) Castaneda's method is used for the culture of:", a: ["Salmonella", "Brucella", "Mycobacterium", "Treponema"], c: 1},
+    {q: "856) Which organism causes 'Rat-bite fever'?", a: ["Leptospira", "Spirillum minus", "Borrelia", "Rickettsia"], c: 1},
+    {q: "857) Epidemic relapsing fever is transmitted by:", a: ["Ticks", "Lice", "Fleas", "Mosquitoes"], c: 1},
+    {q: "858) The 'bull's eye' skin lesion is diagnostic of:", a: ["Syphilis", "Lyme disease", "Relapsing fever", "Leptospirosis"], c: 1},
+    {q: "859) All Enterobacteriaceae are:", a: ["Oxidase positive", "Oxidase negative", "Gram positive", "Spore forming"], c: 1},
+    {q: "860) The major cause of neonatal meningitis is:", a: ["Group A Streptococcus", "Group B Streptococcus (S. agalactiae)", "Neisseria", "Listeria"], c: 1},
+    {q: "861) Salt agar is a selective medium for:", a: ["Streptococcus", "Staphylococcus aureus", "E. coli", "Neisseria"], c: 1},
+    {q: "862) 'Medusa head' colonies are seen in:", a: ["Bacillus anthracis", "Clostridium", "Proteus", "Mycobacterium"], c: 0},
+    {q: "863) The diagnostic test for Scarlet fever is:", a: ["Dick test", "Schultz-Charlton reaction", "Widal test", "Elek test"], c: 1},
+    {q: "864) A positive CAMP test is used to identify:", a: ["S. pyogenes", "S. agalactiae", "S. pneumoniae", "Enterococcus"], c: 1},
+    {q: "865) Optochin sensitivity test is used to identify:", a: ["Viridans Streptococci", "Streptococcus pneumoniae", "S. pyogenes", "Staphylococcus"], c: 1},
+    {q: "866) Which of the following is a bile-soluble organism?", a: ["S. pyogenes", "S. pneumoniae", "Viridans Streptococci", "Enterococcus"], c: 1},
+    {q: "867) The reservoir for Neisseria meningitidis is:", a: ["Animals", "Human nasopharynx", "Soil", "Water"], c: 1},
+    {q: "868) Thayer-Martin medium is a selective medium for:", a: ["Mycobacterium", "Neisseria gonorrhoeae", "Corynebacterium", "Haemophilus"], c: 1},
+    {q: "869) Ophthalmia neonatorum is caused by:", a: ["S. aureus", "N. gonorrhoeae", "E. coli", "Listeria"], c: 1},
+    {q: "870) The causative agent of 'malignant edema' is:", a: ["Clostridium septicum", "Clostridium tetani", "Bacillus anthracis", "S. pyogenes"], c: 0},
+    {q: "871) Which Clostridium species is a common cause of antibiotic-associated diarrhea?", a: ["C. perfringens", "C. difficile", "C. botulinum", "C. tetani"], c: 1},
+    {q: "872) Botulinum toxin acts by preventing the release of:", a: ["GABA", "Acetylcholine", "Dopamine", "Serotonin"], c: 1},
+    {q: "873) The 'Drumstick' appearance of spores is characteristic of:", a: ["B. anthracis", "C. tetani", "C. perfringens", "B. cereus"], c: 1},
+    {q: "874) In the lab, the most common way to diagnose Tetanus is:", a: ["Blood culture", "Clinical presentation (Culture is often negative)", "Widal test", "Gram stain of stool"], c: 1},
+    {q: "875) Mycoplasmas differ from other bacteria because they lack:", a: ["DNA", "Cell wall", "Ribosomes", "Plasma membrane"], c: 1},
+    {q: "876) Sterols in the cell membrane are found in:", a: ["E. coli", "Mycoplasma", "Mycobacterium", "Staphylococcus"], c: 1},
+    {q: "877) The smallest free-living microorganism is:", a: ["Virus", "Mycoplasma", "Chlamydia", "Rickettsia"], c: 1},
+    {q: "878) Scrub typhus is caused by:", a: ["Rickettsia prowazekii", "Orientia tsutsugamushi", "Rickettsia typhi", "Coxiella burnetii"], c: 1},
+    {q: "879) The vector for Q fever is:", a: ["Louse", "None (Usually inhalation of dust/aerosols)", "Tick", "Flea"], c: 1},
+    {q: "880) Trachoma inclusion bodies are called:", a: ["Negri bodies", "Halberstaedter-Prowazek (HP) bodies", "Guarnieri bodies", "Paschen bodies"], c: 1},
+    {q: "881) Lymphogranuloma venereum (LGV) is caused by:", a: ["Treponema", "Chlamydia trachomatis (L1-L3)", "N. gonorrhoeae", "Haemophilus ducreyi"], c: 1},
+    {q: "882) The most common cause of non-specific urethritis is:", a: ["Chlamydia trachomatis", "Mycoplasma hominis", "Ureaplasma urealyticum", "All of the above"], c: 3},
+    {q: "883) Dimorphic fungi grow as:", a: ["Molds at 25°C and Yeasts at 37°C", "Yeasts at 25°C and Molds at 37°C", "Only as molds", "Only as yeasts"], c: 0},
+    {q: "884) Which fungus is commonly associated with bird/bat droppings?", a: ["Candida", "Histoplasma capsulatum", "Aspergillus", "Rhizopus"], c: 1},
+    {q: "885) The most common cause of fungal endocarditis is:", a: ["Aspergillus", "Candida species", "Cryptococcus", "Mucor"], c: 1},
+    {q: "886) Mycetoma (Madura foot) can be caused by:", a: ["Fungi (Eumycetoma)", "Actinomycetes (Actinomycetoma)", "Both A and B", "None of the above"], c: 2},
+    {q: "887) The 'Spaghetti and Meatballs' appearance on KOH is typical for:", a: ["Tinea pedis", "Tinea versicolor (Malassezia furfur)", "Candidiasis", "Sporotrichosis"], c: 1},
+    {q: "888) Rose Gardener's disease is:", a: ["Histoplasmosis", "Sporotrichosis", "Mycetoma", "Candidiasis"], c: 1},
+    {q: "889) Which of the following is a subcutaneous mycosis?", a: ["Tinea capitis", "Sporotrichosis", "Aspergillosis", "Candidiasis"], c: 1},
+    {q: "890) The reservoir for Cryptococcus neoformans is:", a: ["Soil and pigeon droppings", "Human skin", "Vegetation", "Rivers"], c: 0},
+    {q: "891) Viruses that are transmitted by arthropods are called:", a: ["Enteroviruses", "Arboviruses", "Retroviruses", "Adenoviruses"], c: 1},
+    {q: "892) The main vector for Yellow fever is:", a: ["Anopheles", "Aedes aegypti", "Culex", "Glossina"], c: 1},
+    {q: "893) 'Break-bone fever' is another name for:", a: ["Malaria", "Dengue", "Yellow fever", "Chikungunya"], c: 1},
+    {q: "894) Japanese Encephalitis is transmitted by:", a: ["Aedes", "Culex mosquitoes", "Anopheles", "Sandflies"], c: 1},
+    {q: "895) The most common virus causing the 'common cold' is:", a: ["Influenza", "Rhinovirus", "Adenovirus", "RSV"], c: 1},
+    {q: "896) 'Slapped-cheek' appearance is seen in:", a: ["Measles", "Erythema infectiosum (Parvovirus B19)", "Rubella", "Chickenpox"], c: 1},
+    {q: "897) Hand-foot-and-mouth disease is caused by:", a: ["Herpes virus", "Coxsackie A16 virus", "Pox virus", "Adenovirus"], c: 1},
+    {q: "898) The virus associated with Kaposi sarcoma is:", a: ["EBV", "HHV-8", "HPV", "HBV"], c: 1},
+    {q: "899) Which virus is known for 'antigenic shift'?", a: ["Hepatitis B", "Influenza virus", "Measles virus", "Polio virus"], c: 1},
+    {q: "900) The primary screening test for Syphilis in blood banks is:", a: ["TPI", "VDRL/RPR", "FTA-ABS", "Culture"], c: 1}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

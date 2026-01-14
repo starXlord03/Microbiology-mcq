@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 7 (Q601-700)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 7 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 7</h1>
+    <p>Questions 601 - 700 (Mycoplasma, Rickettsia, Viruses & Fungi)</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "601) The most common cause of non-gonococcal urethritis is:", a: ["Mycoplasma hominis", "Chlamydia trachomatis", "Ureaplasma urealyticum", "Neisseria meningitidis"], c: 1},
+    {q: "602) For the diagnosis of Mycoplasma pneumoniae infection, the following test is used:", a: ["Weil-Felix test", "Cold agglutination test", "Widal test", "VDRL test"], c: 1},
+    {q: "603) Mycoplasma are resistant to penicillin because they:", a: ["Produce beta-lactamase", "Lack a cell wall", "Have a thick capsule", "Are obligate intracellular"], c: 1},
+    {q: "604) 'Fried egg' appearance of colonies is characteristic of:", a: ["Staphylococcus", "Mycoplasma", "Mycobacterium", "Bacillus"], c: 1},
+    {q: "605) T-strains of Mycoplasma are now known as:", a: ["Mycoplasma pneumoniae", "Ureaplasma urealyticum", "Mycoplasma hominis", "Mycoplasma genitalium"], c: 1},
+    {q: "606) Smallest free-living organisms are:", a: ["Viruses", "Mycoplasmas", "Chlamydiae", "Rickettsiae"], c: 1},
+    {q: "607) Primary atypical pneumonia is caused by:", a: ["Streptococcus pneumoniae", "Mycoplasma pneumoniae", "Klebsiella pneumoniae", "Adenovirus"], c: 1},
+    {q: "608) Rickettsiae are best described as:", a: ["Obligate intracellular bacteria", "Smallest free-living bacteria", "Bacteria without DNA", "Large viruses"], c: 0},
+    {q: "609) The vector for Epidemic typhus is:", a: ["Rat flea", "Louse", "Tick", "Mite"], c: 1},
+    {q: "610) The vector for Endemic (Murine) typhus is:", a: ["Rat flea", "Louse", "Tick", "Mite"], c: 0},
+    {q: "611) Scrub typhus is transmitted by:", a: ["Hard ticks", "Soft ticks", "Trombiculid mites", "Lice"], c: 2},
+    {q: "612) Q fever is caused by:", a: ["Rickettsia prowazekii", "Coxiella burnetii", "Rickettsia typhi", "Orientia tsutsugamushi"], c: 1},
+    {q: "613) Weil-Felix reaction is based on sharing of antigens between Rickettsia and:", a: ["Escherichia coli", "Proteus species", "Salmonella", "Staphylococcus"], c: 1},
+    {q: "614) Rickettsial pox is transmitted by:", a: ["Louse", "Mite", "Flea", "Tick"], c: 1},
+    {q: "615) Rocky Mountain Spotted Fever is caused by:", a: ["Rickettsia rickettsii", "Rickettsia akari", "Rickettsia typhi", "Coxiella burnetii"], c: 0},
+    {q: "616) Chlamydiae are unique because they have:", a: ["Only DNA", "Only RNA", "Both DNA and RNA", "No nucleic acids"], c: 2},
+    {q: "617) The infective stage of Chlamydia is the:", a: ["Reticulate body", "Elementary body", "Initial body", "L-form"], c: 1},
+    {q: "618) Trachoma is caused by Chlamydia trachomatis serotypes:", a: ["A, B, Ba, C", "D to K", "L1, L2, L3", "None of the above"], c: 0},
+    {q: "619) Lymphogranuloma venereum (LGV) is caused by C. trachomatis serotypes:", a: ["A, B, C", "D to K", "L1, L2, L3", "Ba"], c: 2},
+    {q: "620) Psittacosis is a disease primarily of:", a: ["Humans", "Cattle", "Birds", "Dogs"], c: 2},
+    {q: "621) Viruses are:", a: ["Unicellular", "Multicellular", "Acellular", "Prokaryotic"], c: 2},
+    {q: "622) The protein coat surrounding the viral nucleic acid is the:", a: ["Envelope", "Capsid", "Capsomere", "Peplomer"], c: 1},
+    {q: "623) A complete infectious virus particle is called a:", a: ["Virion", "Viroid", "Prion", "Nucleocapsid"], c: 0},
+    {q: "624) Which of the following is an example of a DNA virus?", a: ["HIV", "Hepatitis B", "Influenza", "Polio"], c: 1},
+    {q: "625) Which of the following is an example of an RNA virus?", a: ["Herpes simplex", "Adenovirus", "Measles", "Variola"], c: 2},
+    {q: "626) Viruses that infect bacteria are called:", a: ["Virions", "Bacteriophages", "Viroids", "Peplomers"], c: 1},
+    {q: "627) The first step in viral replication is:", a: ["Uncoating", "Penetration", "Adsorption (Attachment)", "Synthesis"], c: 2},
+    {q: "628) Cytopathic effect (CPE) refers to:", a: ["Viral growth in broth", "Visible changes in host cells", "Viral death", "Antibody production"], c: 1},
+    {q: "629) Negri bodies are diagnostic of:", a: ["Smallpox", "Measles", "Rabies", "Mumps"], c: 2},
+    {q: "630) The genetic material of HIV is:", a: ["Single-stranded DNA", "Double-stranded DNA", "Single-stranded RNA", "Double-stranded RNA"], c: 2},
+    {q: "631) Target cells for HIV infection are primarily:", a: ["B cells", "CD4+ T cells", "CD8+ T cells", "NK cells"], c: 1},
+    {q: "632) The enzyme characteristic of retroviruses is:", a: ["DNA polymerase", "Reverse transcriptase", "RNA replicase", "Protease"], c: 1},
+    {q: "633) Smallpox was caused by:", a: ["Vaccinia virus", "Variola virus", "Varicella virus", "Molluscum contagiosum"], c: 1},
+    {q: "634) Chickenpox and Shingles are caused by:", a: ["HSV-1", "Varicella-Zoster virus", "Cytomegalovirus", "EBV"], c: 1},
+    {q: "635) Infectious mononucleosis is caused by:", a: ["HIV", "Epstein-Barr virus", "Hepatitis C", "HSV-2"], c: 1},
+    {q: "636) The most common cause of viral diarrhea in infants is:", a: ["Adenovirus", "Rotavirus", "Norovirus", "Astrovirus"], c: 1},
+    {q: "637) Koplik's spots are seen in:", a: ["Rubella", "Measles", "Chickenpox", "Hand-foot-mouth disease"], c: 1},
+    {q: "638) Parotitis (swelling of parotid glands) is a feature of:", a: ["Measles", "Mumps", "Influenza", "Rubella"], c: 1},
+    {q: "639) Hepatitis A virus is transmitted primarily by the:", a: ["Parenteral route", "Fecal-oral route", "Sexual route", "Respiratory route"], c: 1},
+    {q: "640) The 'Dane particle' represents:", a: ["HIV", "Hepatitis B virion", "Hepatitis A virus", "Influenza virus"], c: 1},
+    {q: "641) Which hepatitis virus is a DNA virus?", a: ["HAV", "HBV", "HCV", "HEV"], c: 1},
+    {q: "642) Post-transfusion hepatitis is most commonly caused by:", a: ["HAV", "HBV", "HCV", "HEV"], c: 2},
+    {q: "643) Which hepatitis virus requires HBV for its replication?", a: ["HCV", "HDV", "HEV", "HGV"], c: 1},
+    {q: "644) Major antigenic changes in Influenza virus are known as:", a: ["Antigenic drift", "Antigenic shift", "Mutation", "Recombination"], c: 1},
+    {q: "645) The vaccine for Polio developed by Sabin is a:", a: ["Killed vaccine", "Live attenuated vaccine", "Subunit vaccine", "Toxoid"], c: 1},
+    {q: "646) Prions are composed only of:", a: ["DNA", "RNA", "Protein", "Polysaccharide"], c: 2},
+    {q: "647) Creutzfeldt-Jakob disease (CJD) is caused by:", a: ["Viruses", "Viroids", "Prions", "Bacteria"], c: 2},
+    {q: "648) The study of fungi is called:", a: ["Phycology", "Mycology", "Virology", "Parasitology"], c: 1},
+    {q: "649) Fungal cell walls contain:", a: ["Peptidoglycan", "Chitin", "Cellulose", "Teichoic acid"], c: 1},
+    {q: "650) Fungi that grow as either yeast or mold depending on temperature are:", a: ["Imperfect", "Dimorphic", "Aseptate", "Monomorphic"], c: 1},
+    {q: "651) Sabouraud Dextrose Agar (SDA) is selective for fungi due to its:", a: ["High pH", "Low pH", "High salt", "Low sugar"], c: 1},
+    {q: "652) Dermatophytes cause infections of the:", a: ["Brain", "Lungs", "Skin, hair, and nails", "Liver"], c: 2},
+    {q: "653) Tinea pedis is also known as:", a: ["Ringworm of scalp", "Athlete's foot", "Jock itch", "Barber's itch"], c: 1},
+    {q: "654) Indian ink preparation is used to detect the capsule of:", a: ["Candida albicans", "Cryptococcus neoformans", "Aspergillus", "Histoplasma"], c: 1},
+    {q: "655) Thrush and Vaginal yeast infections are caused by:", a: ["Aspergillus", "Candida albicans", "Penicillium", "Rhizopus"], c: 1},
+    {q: "656) Germ tube test is positive for:", a: ["Candida tropicalis", "Candida albicans", "Cryptococcus", "Histoplasma"], c: 1},
+    {q: "657) Aflatoxin is produced by:", a: ["Candida", "Aspergillus flavus", "Penicillium", "Mucor"], c: 1},
+    {q: "658) Amphotericin B acts by binding to:", a: ["Chitin", "Ergosterol", "DNA", "Ribosomes"], c: 1},
+    {q: "659) Opportunistic fungal infection common in AIDS patients is:", a: ["Pneumocystis jirovecii", "Tinea capitis", "Mycetoma", "Sporotrichosis"], c: 0},
+    {q: "660) Bacteriophages that cause lysis of the host cell are:", a: ["Temperate", "Virulent", "Lysogenic", "Prophages"], c: 1},
+    {q: "661) Which virus causes Rabies?", a: ["Lyssavirus", "Orthomyxovirus", "Paramyxovirus", "Poxvirus"], c: 0},
+    {q: "662) The shape of the Rabies virus is:", a: ["Spherical", "Bullet-shaped", "Brick-shaped", "Tadpole-shaped"], c: 1},
+    {q: "663) Yellow fever is transmitted by:", a: ["Culex mosquito", "Aedes aegypti", "Anopheles", "Sandfly"], c: 1},
+    {q: "664) Dengue virus is a:", a: ["Flavivirus", "Togavirus", "Retrovirus", "Filovirus"], c: 0},
+    {q: "665) Lassa fever is transmitted by:", a: ["Mosquitoes", "Ticks", "Rodents", "Fleas"], c: 2},
+    {q: "666) Human Papillomavirus (HPV) is associated with:", a: ["Liver cancer", "Cervical cancer", "Burkitt lymphoma", "Kaposi sarcoma"], c: 1},
+    {q: "667) Reverse transcriptase is found in:", a: ["Poxvirus", "Hepatitis B virus", "Retroviruses", "Both B and C"], c: 3},
+    {q: "668) Interferons are produced by cells in response to:", a: ["Bacteria", "Viruses", "Fungi", "Protozoa"], c: 1},
+    {q: "669) Amantadine is used for the treatment of:", a: ["HIV", "Influenza A", "Hepatitis B", "Herpes"], c: 1},
+    {q: "670) Acyclovir is the drug of choice for:", a: ["HIV", "Herpes simplex", "Influenza", "Hepatitis A"], c: 1},
+    {q: "671) Viral envelopes are usually derived from:", a: ["Host cell membrane", "Viral capsid", "Viral DNA", "Cytoplasm"], c: 0},
+    {q: "672) The term 'Prophage' refers to:", a: ["A virus before it infects", "Viral DNA integrated into host genome", "An empty capsid", "A newly assembled virion"], c: 1},
+    {q: "673) Which of the following is an oncogenic RNA virus?", a: ["HPV", "EBV", "HTLV-1", "HBV"], c: 2},
+    {q: "674) The window period in HIV refers to the time between:", a: ["Infection and death", "Infection and detection of antibodies", "Infection and symptoms", "ELISA and Western blot"], c: 1},
+    {q: "675) Western Blot is used in HIV diagnosis to:", a: ["Screen patients", "Confirm ELISA results", "Detect viral RNA", "Count CD4 cells"], c: 1},
+    {q: "676) Which is a 'slow virus' disease?", a: ["Influenza", "Subacute Sclerosing Panencephalitis (SSPE)", "Common cold", "Measles"], c: 1},
+    {q: "677) Viroids differ from viruses in that they lack:", a: ["DNA", "RNA", "Protein coat", "Nucleus"], c: 2},
+    {q: "678) Fungal spores produced asexually are:", a: ["Zygospores", "Ascospores", "Conidia", "Basidiospores"], c: 2},
+    {q: "679) Wood's lamp (UV light) is used to diagnose:", a: ["Candidiasis", "Tinea capitis", "Aspergillosis", "Mycetoma"], c: 1},
+    {q: "680) Madura foot is caused by:", a: ["Dermatophytes", "Mycetoma (fungi or actinomycetes)", "Candida", "Cryptococcus"], c: 1},
+    {q: "681) Histoplasmosis is primarily a disease of the:", a: ["Skin", "Lungs", "Brain", "Heart"], c: 1},
+    {q: "682) The most common species causing Aspergillosis is:", a: ["A. niger", "A. fumigatus", "A. flavus", "A. terreus"], c: 1},
+    {q: "683) Ergotism is caused by:", a: ["Aspergillus", "Claviceps purpurea", "Penicillium", "Candida"], c: 1},
+    {q: "684) Which fungus is known as 'Opportunistic' in uncontrolled diabetics?", a: ["Mucor", "Trichophyton", "Microsporum", "Histoplasma"], c: 0},
+    {q: "685) AZT (Zidovudine) acts by inhibiting:", a: ["Protease", "Reverse transcriptase", "Integrase", "Viral entry"], c: 1},
+    {q: "686) The primary receptor for HIV is:", a: ["CD8", "CD4", "CCR5", "CXCR4"], c: 1},
+    {q: "687) Antigenic drift in Influenza is due to:", a: ["Point mutations", "Gene reassortment", "Capsid loss", "Envelope changes"], c: 0},
+    {q: "688) The protein subunits of a viral capsid are:", a: ["Peplomers", "Capsomeres", "Spikes", "Prions"], c: 1},
+    {q: "689) HBsAg in serum indicates:", a: ["Immunity", "Active infection or carrier state", "Recovery", "Vaccination success"], c: 1},
+    {q: "690) Which virus is known to cause shingles later in life?", a: ["HSV-1", "Varicella-Zoster", "EBV", "CMV"], c: 1},
+    {q: "691) Rose Gardener's disease is:", a: ["Histoplasmosis", "Sporotrichosis", "Mycetoma", "Candidiasis"], c: 1},
+    {q: "692) Fungi that produce a 'spaghetti and meatballs' appearance on KOH mount:", a: ["Candida", "Malassezia furfur", "Trichophyton", "Epidermophyton"], c: 1},
+    {q: "693) Tinea cruris affects the:", a: ["Body", "Groin", "Feet", "Face"], c: 1},
+    {q: "694) Black piedra is an infection of the:", a: ["Skin", "Nails", "Hair shaft", "Lungs"], c: 2},
+    {q: "695) Which is a polyene antifungal?", a: ["Fluconazole", "Ketoconazole", "Nystatin", "Griseofulvin"], c: 2},
+    {q: "696) Griseofulvin is used for:", a: ["Systemic candidiasis", "Dermatophytosis", "Cryptococcosis", "Aspergillosis"], c: 1},
+    {q: "697) The term 'Mycosis' means:", a: ["Bacterial infection", "Fungal infection", "Viral infection", "Parasitic infection"], c: 1},
+    {q: "698) Viral hemagglutination is used to:", a: ["Kill viruses", "Titrate/detect viruses", "Culture viruses", "Treat viruses"], c: 1},
+    {q: "699) Molluscum contagiosum is caused by a:", a: ["Herpesvirus", "Poxvirus", "Papovavirus", "Adenovirus"], c: 1},
+    {q: "700) The causative agent of Thrush is:", a: ["Candida albicans", "Candida tropicalis", "Candida krusei", "Candida glabrata"], c: 0}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>

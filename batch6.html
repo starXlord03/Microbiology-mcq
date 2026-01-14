@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Batch 6 (Q501-600)</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Batch 6 Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final - Batch 6</h1>
+    <p>Questions 501 - 600</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    {q: "501) Break-bone fever is another name for :", a: ["Malaria", "Dengue", "Chikungunya", "Yellow fever"], c: 1},
+    {q: "502) Koplik’s spots are characteristic of :", a: ["Rubella", "Measles", "Mumps", "Chickenpox"], c: 1},
+    {q: "503) All of the following are components of MMR vaccine EXCEPT :", a: ["Measles", "Mumps", "Meningitis", "Rubella"], c: 2},
+    {q: "504) The most common cause of viral diarrhea in children is :", a: ["Rotavirus", "Norovirus", "Adenovirus", "Astrovirus"], c: 0},
+    {q: "505) Which hepatitis virus is a DNA virus?", a: ["Hepatitis A", "Hepatitis B", "Hepatitis C", "Hepatitis E"], c: 1},
+    {q: "506) Dane particle refers to :", a: ["HIV virion", "HBV virion", "HAV virion", "HDV virion"], c: 1},
+    {q: "507) The first marker to appear in serum after HBV infection is :", a: ["HBeAg", "HBsAg", "Anti-HBc", "Anti-HBs"], c: 1},
+    {q: "508) Which hepatitis virus requires HBV for its replication?", a: ["Hepatitis A", "Hepatitis C", "Hepatitis D", "Hepatitis E"], c: 2},
+    {q: "509) Prions are composed of :", a: ["DNA and protein", "RNA and protein", "Protein only", "DNA only"], c: 2},
+    {q: "510) Mad cow disease is caused by :", a: ["Viruses", "Bacteria", "Prions", "Fungi"], c: 2},
+    {q: "511) Fungi that can grow as both yeast and mold are called :", a: ["Monomorphic", "Dimorphic", "Pleomorphic", "None of the above"], c: 1},
+    {q: "512) The main component of fungal cell wall is :", a: ["Peptidoglycan", "Chitin", "Cellulose", "Ergosterol"], c: 1},
+    {q: "513) All of the following are superficial mycoses EXCEPT :", a: ["Tinea versicolor", "Tinea pedis", "Candidiasis", "Histoplasmosis"], c: 3},
+    {q: "514) The causative agent of thrush is :", a: ["Aspergillus", "Candida albicans", "Cryptococcus neoformans", "Histoplasma capsulatum"], c: 1},
+    {q: "515) Germ tube test is used for the identification of :", a: ["Candida albicans", "Cryptococcus neoformans", "Aspergillus niger", "Penicillium"], c: 0},
+    {q: "516) Indian ink preparation is used for the diagnosis of :", a: ["Candidiasis", "Cryptococcosis", "Aspergillosis", "Histoplasmosis"], c: 1},
+    {q: "517) The most common cause of fungal meningitis is :", a: ["Candida albicans", "Cryptococcus neoformans", "Histoplasma capsulatum", "Coccidioides immitis"], c: 1},
+    {q: "518) Aflatoxin is produced by :", a: ["Penicillium", "Aspergillus flavus", "Candida albicans", "Rhizopus"], c: 1},
+    {q: "519) The drug of choice for systemic fungal infections is :", a: ["Penicillin", "Amphotericin B", "Griseofulvin", "Nystatin"], c: 1},
+    {q: "520) Entamoeba histolytica causes :", a: ["Giardiasis", "Amoebic dysentery", "Malaria", "Sleeping sickness"], c: 1},
+    {q: "521) The infective stage of Entamoeba histolytica is :", a: ["Trophozoite", "Quadrinucleate cyst", "Sporozoite", "None of the above"], c: 1},
+    {q: "522) The most common extra-intestinal site for amoebiasis is :", a: ["Brain", "Liver", "Lungs", "Spleen"], c: 1},
+    {q: "523) Giardia lamblia is a :", a: ["Ciliate", "Flagellate", "Sporozoan", "Amoeba"], c: 1},
+    {q: "524) Steatorrhea is characteristic of :", a: ["Amoebiasis", "Giardiasis", "Malaria", "Leishmaniasis"], c: 1},
+    {q: "525) The vector for transmission of Kala-azar is :", a: ["Anopheles mosquito", "Sandfly", "Tsetse fly", "Rat flea"], c: 1},
+    {q: "526) The causative agent of Kala-azar is :", a: ["Leishmania donovani", "Leishmania tropica", "Trypanosoma brucei", "Trypanosoma cruzi"], c: 0},
+    {q: "527) Sleeping sickness is caused by :", a: ["Leishmania", "Trypanosoma brucei", "Plasmodium", "Toxoplasma"], c: 1},
+    {q: "528) The vector for transmission of African sleeping sickness is :", a: ["Sandfly", "Tsetse fly", "Reduviid bug", "Mosquito"], c: 1},
+    {q: "529) All of the following are species of Plasmodium EXCEPT :", a: ["P.falciparum", "P.vivax", "P.ovale", "P.donovani"], c: 3},
+    {q: "530) The definitive host for Plasmodium is :", a: ["Human", "Female Anopheles mosquito", "Male Anopheles mosquito", "Monkey"], c: 1},
+    {q: "531) The infective stage of Plasmodium for humans is :", a: ["Merozoite", "Trophozoite", "Sporozoite", "Gametocyte"], c: 2},
+    {q: "532) Cerebral malaria is caused by :", a: ["P.vivax", "P.falciparum", "P.malariae", "P.ovale"], c: 1},
+    {q: "533) Toxoplasmosis is primarily transmitted to humans from :", a: ["Dogs", "Cats", "Birds", "Pigs"], c: 1},
+    {q: "534) The drug of choice for the treatment of malaria is :", a: ["Penicillin", "Chloroquine", "Metronidazole", "Albendazole"], c: 1},
+    {q: "535) Black water fever is a complication of :", a: ["Amoebiasis", "P.falciparum malaria", "Kala-azar", "Giardiasis"], c: 1},
+    {q: "536) The causative agent of cysticercosis is :", a: ["Taenia saginata", "Taenia solium", "Echinococcus granulosus", "Ascaris lumbricoides"], c: 1},
+    {q: "537) The intermediate host for Taenia saginata is :", a: ["Pig", "Cow", "Dog", "Fish"], c: 1},
+    {q: "538) Hydatid disease is caused by :", a: ["Taenia solium", "Echinococcus granulosus", "Ascaris lumbricoides", "Ancylostoma duodenale"], c: 1},
+    {q: "539) The definitive host for Echinococcus granulosus is :", a: ["Human", "Dog", "Sheep", "Pig"], c: 1},
+    {q: "540) The largest intestinal nematode is :", a: ["Hookworm", "Ascaris lumbricoides", "Pinworm", "Whipworm"], c: 1},
+    {q: "541) Loeffler’s syndrome is associated with the life cycle of :", a: ["Ascaris lumbricoides", "Enterobius vermicularis", "Trichuris trichiura", "Taenia solium"], c: 0},
+    {q: "542) Hookworm infection is primarily transmitted by :", a: ["Ingestion of eggs", "Skin penetration by larvae", "Insect bite", "Fecal-oral route"], c: 1},
+    {q: "543) Ground itch is associated with :", a: ["Ascaris", "Hookworm", "Pinworm", "Whipworm"], c: 1},
+    {q: "544) The diagnostic test for Enterobius vermicularis is :", a: ["Stool examination", "NIH swab/Scotch tape test", "Blood culture", "Urine analysis"], c: 1},
+    {q: "545) Elephantiasis is caused by :", a: ["Wuchereria bancrofti", "Brugia malayi", "Onchocerca volvulus", "Loa loa"], c: 0},
+    {q: "546) The vector for Wuchereria bancrofti is :", a: ["Anopheles mosquito", "Culex mosquito", "Aedes mosquito", "Sandfly"], c: 1},
+    {q: "547) Nocturnal periodicity is characteristic of :", a: ["Ascaris", "Microfilariae of W.bancrofti", "Hookworm", "Pinworm"], c: 1},
+    {q: "548) The drug of choice for the treatment of filariasis is :", a: ["Albendazole", "Diethylcarbamazine (DEC)", "Praziquantel", "Metronidazole"], c: 1},
+    {q: "549) Sterilization by steam under pressure is called :", a: ["Pasteurization", "Tyndallization", "Autoclaving", "Incineration"], c: 2},
+    {q: "550) The indicator used in the autoclave is :", a: ["Bacillus subtilis", "Geobacillus stearothermophilus", "Clostridium tetani", "Bacillus anthracis"], c: 1},
+    {q: "551) Which of the following is used for sterilization of heat-labile equipment?", a: ["Hot air oven", "Autoclave", "Ethylene oxide (ETO)", "Incineration"], c: 2},
+    {q: "552) Disinfection of floors in hospitals is usually done with :", a: ["Alcohol", "Phenolics", "Glutaraldehyde", "Chlorhexidine"], c: 1},
+    {q: "553) The concentration of alcohol used as an antiseptic is :", a: ["100%", "70%", "50%", "30%"], c: 1},
+    {q: "554) Which of the following is a specific treponemal test?", a: ["VDRL", "RPR", "FTA-ABS", "Kahn test"], c: 2},
+    {q: "555) The causative agent of Lyme disease is :", a: ["Treponema pallidum", "Borrelia burgdorferi", "Leptospira interrogans", "Borrelia recurrentis"], c: 1},
+    {q: "556) The vector for transmission of Lyme disease is :", a: ["Louse", "Tick", "Flea", "Mosquito"], c: 1},
+    {q: "557) Bull’s eye rash (Erythema migrans) is characteristic of :", a: ["Syphilis", "Lyme disease", "Relapsing fever", "Leptospirosis"], c: 1},
+    {q: "558) The most common cause of non-gonococcal urethritis is :", a: ["Neisseria gonorrhoeae", "Chlamydia trachomatis", "Mycoplasma hominis", "Ureaplasma urealyticum"], c: 1},
+    {q: "559) Which of the following is a cold-growing bacterium (Psychrophile)?", a: ["Escherichia coli", "Listeria monocytogenes", "Staphylococcus aureus", "Salmonella Typhi"], c: 1},
+    {q: "560) All of the following are halophilic bacteria EXCEPT :", a: ["Vibrio parahaemolyticus", "Staphylococcus aureus", "Vibrio cholerae", "Vibrio vulnificus"], c: 2},
+    {q: "561) The first antibiotic discovered was :", a: ["Streptomycin", "Penicillin", "Tetracycline", "Chloramphenicol"], c: 1},
+    {q: "562) Beta-lactamase production is a common mechanism of resistance to :", a: ["Penicillins", "Aminoglycosides", "Tetracyclines", "Quinolones"], c: 0},
+    {q: "563) Vancomycin is the drug of choice for :", a: ["MRSA", "VRE", "E.coli", "Pseudomonas"], c: 0},
+    {q: "564) Resistance to which drug is the definition of MDR-TB?", a: ["Isoniazid and Rifampicin", "Streptomycin and Ethambutol", "Pyrazinamide and Ethionamide", "Ciprofloxacin and Kanamycin"], c: 0},
+    {q: "565) Probiotics are :", a: ["Pathogenic bacteria", "Beneficial live microorganisms", "Killed vaccines", "Antibiotics"], c: 1},
+    {q: "566) The most common site of normal flora in the human body is :", a: ["Blood", "CSF", "Skin/Colon", "Lungs"], c: 2},
+    {q: "567) Opportunistic infections occur primarily in :", a: ["Healthy individuals", "Immunocompromised individuals", "Athletes", "Children only"], c: 1},
+    {q: "568) Nosocomial infection is an infection acquired in :", a: ["Community", "Hospital", "School", "Home"], c: 1},
+    {q: "569) The most common source of nosocomial infection is :", a: ["Food", "Water", "Hands of healthcare workers", "Air"], c: 2},
+    {q: "570) Universal precautions are meant to protect against :", a: ["Airborne diseases", "Blood-borne diseases", "Food-borne diseases", "Water-borne diseases"], c: 1},
+    {q: "571) The main goal of vaccination is to achieve :", a: ["Individual immunity", "Herd immunity", "Passive immunity", "Innate immunity"], c: 1},
+    {q: "572) Which of the following is a live attenuated vaccine?", a: ["Tetanus toxoid", "Hepatitis B vaccine", "Oral Polio Vaccine (Sabin)", "IPK (Salk)"], c: 2},
+    {q: "573) Cold chain is essential for :", a: ["Antibiotics", "Hormones", "Vaccines", "Vitamins"], c: 2},
+    {q: "574) At what temperature should most vaccines be stored in the cold chain?", a: ["-20°C", "2 to 8°C", "25°C", "37°C"], c: 1},
+    {q: "575) The study of fungi is called :", a: ["Bacteriology", "Mycology", "Virology", "Parasitology"], c: 1},
+    {q: "576) Which of the following is a selective medium for fungi?", a: ["MacConkey agar", "Sabouraud’s Dextrose Agar (SDA)", "Blood agar", "Nutrient agar"], c: 1},
+    {q: "577) Ergosterol is a target for which group of drugs?", a: ["Antibiotics", "Antifungals", "Antivirals", "Antiprotozoals"], c: 1},
+    {q: "578) The causative agent of tinea capitis is a :", a: ["Yeast", "Dermatophyte", "Mold", "Dimorphic fungus"], c: 1},
+    {q: "579) Wood’s lamp is used for the diagnosis of :", a: ["Candidiasis", "Tinea capitis (fungal infections of hair)", "Aspergillosis", "Histoplasmosis"], c: 1},
+    {q: "580) Which of the following is an example of an opportunistic fungus?", a: ["Histoplasma", "Aspergillus", "Blastomyces", "Coccidioides"], c: 1},
+    {q: "581) The most common cause of fungal endophthalmitis is :", a: ["Candida", "Aspergillus", "Fusarium", "All of the above"], c: 3},
+    {q: "582) Mycotoxins are produced by :", a: ["Bacteria", "Fungi", "Viruses", "Protozoa"], c: 1},
+    {q: "583) Ergotism is caused by ingestion of :", a: ["Aflatoxin", "Claviceps purpurea toxins", "Ochratoxin", "Patulin"], c: 1},
+    {q: "584) The causative agent of Pneumocystis pneumonia (PCP) is :", a: ["Bacteria", "Fungus (Pneumocystis jirovecii)", "Protozoa", "Virus"], c: 1},
+    {q: "585) PCP is a major opportunistic infection in :", a: ["Diabetic patients", "AIDS patients", "Pregnant women", "Elderly"], c: 1},
+    {q: "586) Malaria is caused by :", a: ["Bacteria", "Virus", "Protozoa", "Fungus"], c: 2},
+    {q: "587) The vector for Malaria is :", a: ["Male Anopheles", "Female Anopheles", "Culex", "Aedes"], c: 1},
+    {q: "588) Schuffner’s dots are seen in RBCs infected with :", a: ["P.falciparum", "P.vivax", "P.malariae", "P.knowlesi"], c: 1},
+    {q: "589) Maurer’s clefts are seen in RBCs infected with :", a: ["P.vivax", "P.falciparum", "P.ovale", "P.malariae"], c: 1},
+    {q: "590) The most common method for malaria diagnosis is :", a: ["PCR", "Peripheral blood smear (Thick and Thin)", "Serology", "Culture"], c: 1},
+    {q: "591) The drug of choice for radical cure of P.vivax malaria is :", a: ["Chloroquine", "Primaquine", "Quinine", "Artesunate"], c: 1},
+    {q: "592) Leishmania is transmitted by the bite of :", a: ["Mosquito", "Sandfly", "Tick", "Louse"], c: 1},
+    {q: "593) L.D. bodies are seen in :", a: ["RBCs", "Macrophages", "Neutrophils", "Platelets"], c: 1},
+    {q: "594) Montenegro test is a :", a: ["Skin test for Leishmaniasis", "Blood test for Malaria", "Stool test for Amoebiasis", "Urine test for Schistosomiasis"], c: 0},
+    {q: "595) The causative agent of Chagas disease is :", a: ["Trypanosoma brucei", "Trypanosoma cruzi", "Leishmania braziliensis", "Toxoplasma gondii"], c: 1},
+    {q: "596) The vector for Chagas disease is :", a: ["Tsetse fly", "Triatomine (Kissing) bug", "Sandfly", "Tick"], c: 1},
+    {q: "597) Romanas sign is characteristic of :", a: ["Sleeping sickness", "Chagas disease", "Kala-azar", "Malaria"], c: 1},
+    {q: "598) Toxoplasma gondii is an :", a: ["Intracellular parasite", "Extracellular parasite", "Both", "None"], c: 0},
+    {q: "599) Congenital toxoplasmosis occurs when the mother is infected :", a: ["Before pregnancy", "During pregnancy", "After delivery", "None of the above"], c: 1},
+    {q: "600) The sabin-Feldman dye test is used for :", a: ["Malaria", "Toxoplasmosis", "Leishmaniasis", "Amoebiasis"], c: 1}
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>
