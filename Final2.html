@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Final Exam - Batch 12</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Score: <span id="score">0</span> / 124</div>
+
+<div class="header">
+    <h1>Microbiology Final Exam - Batch 12</h1>
+    <p>Questions 101 to 224</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    { q: "101- For the treatment of tetanus use:", a: ["interferon", "bacteriophage", "antitoxic serum", "toxoid"], c: 2 },
+    { q: "102- For the treatment of tuberculosis do not use:", a: ["acyclovir", "rifampicin", "isoniazid", "tubazid"], c: 0 },
+    { q: "103- The condition, when bacteria multiply in the blood, is called:", a: ["Sepsis", "Septicopyemia", "Bacteremia", "Virusemia"], c: 0 },
+    { q: "104- β-lactam antibiotic is :", a: ["streptomycin", "erythromycin", "rifampicin", "penicillin"], c: 3 },
+    { q: "105- Relapse is called:", a: ["Disease that occurs after a previous infection with a second infection with the same pathogen", "Return of the disease due to remaining pathogens in the body", "Disease caused by infection with a new pathogen in the background of an unfinished initial infectious disease"], c: 1 },
+    { q: "106- What statement about the properties of endotoxins is incorrect:", a: ["Less toxic", "Highly toxic", "Lipopolysaccharides", "Thermostable"], c: 1 },
+    { q: "107- Antitoxic serum is used for:", a: ["treatment of sepsis", "Treatment of bacterial infections", "prevention of dermatomycosis", "Treatment of viral infections"], c: 1 },
+    { q: "108- Vaccine is used to prevent tuberculosis:", a: ["MMR", "Molecular vaccine", "DTP", "BCG"], c: 3 },
+    { q: "109- An antibiotic that inhibits protein synthesis on ribosomes in a bacterial cell:", a: ["nystatin", "streptomycin", "rifampicin", "penicillin"], c: 1 },
+    { q: "110- Reinfection is called:", a: ["Disease caused by human infection with the same pathogen before recovery", "Disease that occurs after a previous infection with a second infection with the same pathogen", "Return of the disease due to remaining pathogens in the body", "Disease caused by infection with a new pathogen in the background of an unfinished initial infectious disease"], c: 1 },
+    { q: "111- Antitoxins are used for:", a: ["For the prevention of fungal infections", "For the prevention of dermatomycosis", "For the treatment of infectious diseases", "For the treatment of viral infections"], c: 2 },
+    { q: "112- Specific prevention of whooping cough is carried out by:", a: ["Live vaccine", "DTP", "DT", "Antibiotics"], c: 1 },
+    { q: "113- For the treatment of tuberculosis is not used:", a: ["Isoniazid", "Ethambutol", "Nystatin", "Pyrazinamide"], c: 2 },
+    { q: "114- For the cultivation of the causative agent of leprosy apply:", a: ["Simple nutrient media", "Susceptible animals", "Complex nutrient media", "Elective media"], c: 1 },
+    { q: "115- Does not apply to the cultural properties of the plague pathogen:", a: ["Unpretentious to nutrient media", "S type colonies", "Form R type colonies", "Incubated at 28 degrees by C"], c: 1 },
+    { q: "116- The main factor of pathogenicity of meningococci is:", a: ["Endotoxin", "Exfoliative toxin", "Leucocidin", "Erythrogenic toxin"], c: 0 },
+    { q: "117- For specific prophylaxis of plague, the following is used:", a: ["Anatoxin", "Gamma globulin", "Antitoxin", "Live vaccine"], c: 3 },
+    { q: "118- Meningococcal infection manifests itself in all forms, except:", a: ["Bacteremia", "Food poisoning", "Carrier state", "Nasopharyngitis"], c: 1 },
+    { q: "119- The carriers of the causative agent of Lyme disease are:", a: ["Lice", "Ticks", "Fleas", "Mosquitoes"], c: 1 },
+    { q: "120- Morphological features of the causative agent of tularemia:", a: ["Coccobacteria", "Form a macrocapsule", "Movable", "Form a centrally located spore"], c: 0 },
+    { q: "121- For the treatment of diphtheria apply:", a: ["Specific bacteriophages", "Isoniazid", "Anatoxin", "Antitoxic serum"], c: 3 },
+    { q: "122- Casative agent of tuberculosis grows on media:", a: ["RCM broth", "Levenshtein-Jensen", "Milk-salt agar", "Nutrient agar"], c: 1 },
+    { q: "123- Tularemia causative agent belong to the genus:", a: ["Francisella", "Pseudomonas", "Yersinia.", "Brucella."], c: 0 },
+    { q: "124- Prevention of tuberculosis includes:", a: ["Use of MMR vaccine", "Use of bacteriophage", "Use of BCG vaccine", "Use of tuberculi"], c: 2 },
+    { q: "125- The causative agent of Lyme disease is:", a: ["Mycobacterium avium", "Brucella melitensis", "Borrelia burgdorferi", "Borrelia reccurentis"], c: 2 },
+    { q: "126- Medium for the cultivation of the whooping cough pathogen:", a: ["Salt agar", "Nutrient agar", "Bordet-Gengou medium", "MacConkey's medium"], c: 2 },
+    { q: "127- The causative agent of intestinal yersiniosis is transmitted to the humans:", a: ["By air", "By food", "From mother to fetus", "By sexual contact"], c: 1 },
+    { q: "128- The main method of laboratory diagnosis of Escherichiosis is:", a: ["Serological", "Bacterioscopic", "Skin allergy tests", "Bacteriological"], c: 3 },
+    { q: "129- What specimen is not used for diagnosis of leptospirosis:", a: ["Blood", "Urine", "Throat swab", "Water"], c: 2 },
+    { q: "130- The causative agent of cholera has got the following antigens, except:", a: ["O139", "H", "O2", "O1"], c: 2 },
+    { q: "131- For active immunization against brucellosis, a vaccine is used:", a: ["Chemical", "Alive", "Anatoxin", "Subunit"], c: 1 },
+    { q: "132- What specimen is examined by a bacteriological method in the first week of typhoid fever:", a: ["Blood", "Stool", "Urine", "Bile"], c: 0 },
+    { q: "133- To isolate Vibrio cholera, a nutrient medium is used:", a: ["MacConkey agar", "Blood agar", "Robertson's cooked meat broth", "Alkaline agar"], c: 3 },
+    { q: "134- In the pathogenesis of botulism, the main role is played by:", a: ["Neurotoxin", "Dermonectrotoxin", "Histotoxin", "Enterotoxin"], c: 0 },
+    { q: "135- The material for the bacteriological method for dysentery is:", a: ["Blood", "Pus", "Stool", "Urine"], c: 2 },
+    { q: "136- Lactose-positive Escherichia form colonies on MacConkey medium:", a: ["Black", "Yellow", "Colorless", "Red"], c: 3 },
+    { q: "137- Morphological and tinctorial properties of Salmonella:", a: ["Gram positive rods", "Gram-negative rods", "Gram-negative spore-forming rods", "Gram-negative cocci"], c: 1 },
+    { q: "138- For the treatment of cholera are used:", a: ["Tetracycline and electrolytes solutions", "Nystatin and electrolytes solutions", "Ftivazide and electrolytes solutions", "Interferon and electrolytes solutions"], c: 0 },
+    { q: "139- Exotoxin produced by Vibrio cholera is:", a: ["Enterotoxin", "Dermonecrotoxin", "Hemolysin", "Neurotoxins"], c: 0 },
+    { q: "140- The source of infection in case of brucellosis is:", a: ["Insects", "Human", "Soil", "Cattle"], c: 3 },
+    { q: "141- Intestinal yersiniosis is caused by:", a: ["Y. pseudotuberculosis", "Y. pestis", "Y. enterocolitica", "K. ozaenae"], c: 2 },
+    { q: "142- For the treatment of influenza, everything is used, except for:", a: ["immunoglobulin", "interferonogens", "interferon", "vaccines", "remantadine"], c: 3 },
+    { q: "143- Ways of transmission in HIV infection (everything is true, except for):", a: ["when breastfeeding", "during pregnancy", "sexual", "with intravenous drug use", "when using common utensils"], c: 4 },
+    { q: "144- For the treatment of herpes simplex apply:", a: ["Biseptol", "Interferon", "Acyclovir", "Penicillins", "Nitrofurans"], c: 2 },
+    { q: "145- Rabies treatment:", a: ["not developed", "immunomodulators", "gamma globulin", "interferons", "antibiotics"], c: 0 },
+    { q: "146- To prevent hepatitis A, a vaccine is currently used:", a: ["anatoxin", "live vaccine", "recombinant vaccine", "killed vaccine"], c: 3 },
+    { q: "147- The measles virus belongs to the genus:", a: ["Flavivirus", "Paramyxovirus", "Rubulavirus", "Pneumovirus", "Morbillivirus"], c: 4 },
+    { q: "148- Herpes zoster is caused by:", a: ["fungi of the genus Candida", "influenza virus", "poliovirus", "rhabdovirus", "varicella-zoster virus"], c: 4 },
+    { q: "149- Viral hepatitis with a parenteral transmission mechanism includes everything except:", a: ["hepatitis G", "hepatitis B", "hepatitis A", "hepatitis C"], c: 2 },
+    { q: "150- Hepatitis B virus antigens (all are true, except for):", a: ["HBx- Ag", "НВс-Ag", "HBs-Ag", "ND-core-Ag", "HBe-Ag"], c: 3 },
+    { q: "151- For active specific prevention of hepatitis B is used:", a: ["recombinant vaccine", "live vaccine", "immunoglobulin", "killed vaccine", "anatoxin"], c: 0 },
+    { q: "152- Active immunization against measles is carried out:", a: ["gamma globulin", "live vaccine", "inactivated vaccine", "toxoid", "DPT vaccine"], c: 1 },
+    { q: "153- Route of transmission for influenza:", a: ["by insect", "ingestion", "airborne", "by sexual contact", "congenitally"], c: 2 },
+    { q: "154- Influenza epidemics are often caused by influenza viruses of the serotype:", a: ["B", "C", "D", "A", "E"], c: 3 },
+    { q: "155- Ways of transmission for hepatitis B (everything is true, except for):", a: ["by food", "blood transfusion", "with intravenous drug use", "by sexual contact", "congenitally"], c: 0 },
+    { q: "156- Among the causative agents of viral hepatitis, DNA genomic viruses include:", a: ["hepatitis D virus", "hepatitis E virus", "hepatitis A virus", "hepatitis B virus", "hepatitis C viru"], c: 3 },
+    { q: "157- Route of transmission for measles:", a: ["by food", "air-dust", "by droplets", "by water", "throw transplacentl"], c: 2 },
+    { q: "158- A feature of pathogenesis in HIV infection is selective cell damage containing receptors:", a: ["CD3 +", "CD18 +", "CD16 +", "CD8 +", "CD4 +"], c: 4 },
+    { q: "159- Prevention of hepatitis D:", a: ["compliance with the rules of personal and public hygiene", "vaccination against hepatitis B", "vaccination against hepatitis A", "interferon", "immunoglobulin"], c: 1 },
+    { q: "160- Which of the following diseases is characterized by the presence of the Negri bodies in the cells?:", a: ["influenza", "rubella", "chickenpox", "rabies", "mumps"], c: 3 },
+    { q: "161- Antiviral drugs include the following, except for:", a: ["interferon", "metronidazole", "remantadine", "azidothymidine", "acyclovir"], c: 1 },
+    { q: "162- Hepatitis B virus is classified as:", a: ["family Picornaviridae, genus Hepatovirus", "family Hepadnaviridae, genus Orthohepadnavirus", "family Picornaviridae, genus Enterovirus", "not classified", "family Togaviridae, genus Rubivirus"], c: 1 },
+    { q: "163- Viral hepatitis with enteral transmission mechanism:", a: ["hepatitis E, hepatitis B", "hepatitis A, hepatitis E", "hepatitis C, hepatitis G", "hepatitis B, hepatitis D", "hepatitis B, hepatitis C"], c: 1 },
+    { q: "164- Viruses of the Enterovirus genus (everything is true, except for):", a: ["contain DNA", "contain RNA", "simple", "cubic symmetry", "small"], c: 0 },
+    { q: "165- Features of the hepatitis D virus (everything is true, except for):", a: ["reproduction in the presence of HBV", "defectiveness of the virus", "НВs-Ag in the composition of НDV envelope", "inability to cause monoinfection", "reproduction in the presence of HCV"], c: 4 },
+    { q: "166- The main route of transmission in rabies:", a: ["by contact (when bitten or salivated by sick animals)", "by water", "congenitally", "by sexual contact", "by insect"], c: 0 },
+    { q: "167- Ways of transmission of infection with poliomyelitis:", a: ["fecal-oral", "congenitally", "transplacental", "air-dust"], c: 0 },
+    { q: "168- Transmission factors in HIV infection (everything is true, except):", a: ["tears", "sperm", "vaginal secretion", "breast milk", "blood"], c: 0 },
+    { q: "169- Specific prevention of HIV infection:", a: ["recombinant vaccines", "not developed", "live vaccines", "donor immunoglobulins"], c: 1 },
+    { q: "170- Ways of transmission for hepatitis A (everything is true, except for):", a: ["with infected products", "through unwashed hands", "through household items of the patient", "congenitally", "with infected water"], c: 3 },
+    { q: "171- Rabies virus classification:", a: ["family Flaviviridae, genus Flavivirus", "family Rhabdoviridae, genus Lyssavirus", "family Filoviridae, genus Filovivirus", "family Arenaviridae, genus Arenavirus", "family Rhabdoviridae, genus Vesiculovirus"], c: 1 },
+    { q: "172- The route of transmission of the virus in case of acquired rubella:", a: ["by food", "air-dust", "transplacental", "airborne", "contact"], c: 3 },
+    { q: "173- Sources of infection in case of rabies (all is true, except for):", a: ["foxes", "cats", "dogs", "sick man", "wolves"], c: 3 },
+    { q: "174- The clinical manifestations of candidiasis are as follows, except :", a: ["Bronchopulmonary candidiasis", "Vaginitis", "Conjunctivitis", "Intestinal candidiasis", "Cutaneous candidiasis"], c: 2 },
+    { q: "175- The causative agents of dermatophytoses are the following species, except:", a: ["Microsporum canis", "Histoplasma capsulatum", "Epidermophyton floccosum", "Trichophyton rubrum"], c: 1 },
+    { q: "176- Most often, candidiasis is caused by:", a: ["C. tropicalis", "C. krusei", "C. albicans", "C. parapsilosis"], c: 2 },
+    { q: "177- What method is not used for to determine pyrogenicity:", a: ["LAL test", "ELISA test", "Biological", "Indirect"], c: 1 },
+    { q: "178- Causative agents of malaria are transsmitted by biting of:", a: ["Moscuites", "Ticks", "Fleas", "Lice"], c: 0 },
+    { q: "179- For prophylaxis of trichomonosis is used:", a: ["Toxoid", "Live vaccine", "Safe sex", "Inactivated vaccine"], c: 2 },
+    { q: "180- For the quantitative determination of mold and yeast fungi in the air of the premises of pharmacies inoculation is performed on the medium :", a: ["Meat peptone agar", "Salt agar", "MacConkey", "Sabouraud medium"], c: 3 },
+    { q: "181- Cultural properties of C. albicans:", a: ["Formation on solid media R type colonies", "The ability to grow dimorphic at 20 °C and 37 °C", "Formation of S-type colonies on solid media", "Ability to grow on Robertson’s cooked meat broth"], c: 2 },
+    { q: "182- In which room of pharmacies is it permissible to detect Staphylococcus aureus in the air:", a: ["Service Hall", "Assistant", "Aseptic unit", "Washing"], c: 0 },
+    { q: "183- The source and factors of transmission of pathogens of dermatophytoses are the following, except:", a: ["animals", "sick people", "syringes and needles", "barber tools", "the soil"], c: 2 },
+    { q: "184- For the treatment of trichomonosis is used:", a: ["Isoniazid", "Streptomycin", "Specific immunoglobulin", "Metronidazole"], c: 3 },
+    { q: "185- The main medium for the isolation of fungi is:", a: ["Meat peptone agar", "Sabouraud agar", "MacConkey agar", "Robertson’s cooked meat broth"], c: 1 },
+    { q: "186- Causative agent of toxoplasmosis is not transmitted:", a: ["By eating of undercooked meat", "By sexual contact", "Congenitally", "By contact with cats"], c: 1 },
+    { q: "187- To determine the total number of bacteria in the air of the premises of pharmacies examine air in volume:", a: ["50 l", "150 l", "250 l", "100 l"], c: 2 },
+    { q: "188- To determine the amount of mesophilic aerobic and facultatively anaerobic bacteria in distilled water, inoculation of the test sample is performed on the medium:", a: ["Salt agar", "Meat peptone agar", "MacConkey", "Sabouraud medium"], c: 1 },
+    { q: "189- Causative agents of malaria have organs of movement:", a: ["Cilia", "Pseudopodia", "Flagella", "Absent"], c: 3 },
+    { q: "190- The morphological and cultural properties of the causative agent of toxoplasmosis are as follows, except for:", a: ["Moving with flagella", "Intracellular parasitism", "Cyst formation", "Boat-shaped cells"], c: 0 },
+    { q: "191- In case of dermatophytoses, the material for research is everything except:", a: ["hair", "fingernails", "scrapings from the skin", "sputum"], c: 3 },
+    { q: "192- For the treatment of malaria is used:", a: ["Chloroquine", "Metronidazole", "Nystatin", "Anti-toxic serum"], c: 0 },
+    { q: "193- The causative agents of dermatophytoses are transmitted:", a: ["By airborne droplets", "By blood sucking insecta", "By food", "By contact"], c: 3 },
+    { q: "194- For specific prophylaxis of toxoplasmosis is used:", a: ["Toxoid", "Inactivated vaccine", "Not developed", "Live vaccine"], c: 2 },
+    { q: "195- All the options are characteristic of Streptococcus pneumoniae EXCEPT:", a: ["Inulin fermentation", "Optochin sensitivity", "Bile solubility", "Oxidase-positive"], c: 3 },
+    { q: "196- C.diphtheriae can be biochemically differentiated from C.ulcerans by:", a: ["Urease test", "Tellurite reduction", "Oxidase test", "Catalase test"], c: 0 },
+    { q: "197- The Clostridium species with spherical terminal spores is:", a: ["C.difficile", "C.perfringens", "C.tertium", "C.tetani"], c: 3 },
+    { q: "198- The food item associated with B.cereus emetic-type food poisoning is:", a: ["Meat", "Canned food", "Milk and milk products", "Cooked rice"], c: 3 },
+    { q: "199- Mycobacteria that produce toxins are:", a: ["M.xenopi", "M.scrofulaceum", "M.abscesses", "M.ulcerans"], c: 3 },
+    { q: "200- The mechanism of action of tetanospasmin is:", a: ["Post-synaptic inhibition in spinal cord", "Inhibition of acetyl choline receptors", "Presynaptic inhibition in spinal cord", "Inhibition of protein synthesis"], c: 2 },
+    { q: "201- The selective media for isolating B.cereus from stool is :", a: ["Mannitol salt agar", "Mannitol-egg yolk-polymixin agar", "Buffered charcoal yeast extract agar", "PLET medium"], c: 1 },
+    { q: "202- Selective media for gonococci is:", a: ["Thayer-Martin medium", "DCA medium", "Lowenstein-Jensen medium", "Blood agar medium"], c: 0 },
+    { q: "203- All of the following organisms produce non-gonococcal urethritis EXCEPT:", a: ["Chlamydia trachomatis", "Mycoplasma genitalium", "Chlamydia psittaci", "Trichomonas vaginalis"], c: 2 },
+    { q: "204- Fildes technique is used for isolation of :", a: ["C.tetani", "C.histolyticum", "C.difficile", "C.perfringens"], c: 0 },
+    { q: "205- The diphteria toxin has similar mechanism of action as the toxin of :", a: ["Listeria", "Clostridium tetani", "E. Coli", "Pseudomonas aeruginosa"], c: 3 },
+    { q: "206- Which of the following is a non- suppurative complication of Streptococcus pyogenes?:", a: ["Pharyngitis", "Acute rheumatic fever", "Impetigo", "Necrotising fasciitis"], c: 1 },
+    { q: "207- Penicillin resistance in Pneumococci is due to:", a: ["All of the above", "Acquisition of mec A gene", "lactamase production", "Alteration in penicillin-binding proteins"], c: 3 },
+    { q: "208- Which of the following is not a cultural characteristic of B.anthracis?:", a: ["Bamboo stick appearance", "String of pearl reaction", "Medusa head appearance", "Inverted fir tree appearance"], c: 0 },
+    { q: "209- All of the following are causative agents of non-gonococcal urethritis EXCEPT :", a: ["Neisseria sicca", "Ureaplasma urealyticum", "Gardnerella vaginalis", "Chlamydia trachomatis"], c: 0 },
+    { q: "210- Which of the following statements is false about food poisoning due to C.perfringens?:", a: ["Food poisoning is usually caused by a cold or warmed up meat dish.", "Preformed toxins are responsible.", "It is caused by C.perfringens type A strains.", "Spores of C.perfringens are responsible"], c: 1 },
+    { q: "211- The transport medium used for throat swabs in case of streptococcal pharyngitis is :", a: ["Pike's medium", "Buffered glycerol saline", "Cary Blair medium", "Stuart's medium"], c: 0 },
+    { q: "212-The most commonly encountered coagulase-negative staphylococci in human infections is :", a: ["Staph.saprophyticus", "Staph.haemolyticus", "Staph.epidermidis", "Staph.lugdunensis"], c: 2 },
+    { q: "213- The capsule of B.anthracis is formed of:", a: ["Protein", "Polysaccharide", "Polypeptide", "Lipid"], c: 2 },
+    { q: "214- All of the following options are true about M protein of S.pyogenes EXCEPT :", a: ["It is heat and acid-stable.", "M protein is not antigenic.", "It is used for typing streptococci.", "It is responsible for virulence."], c: 1 },
+    { q: "215- Differentiation of Neisseria gonorrhoeae and Neisseria meningitidis is by :", a: ["Glucose fermentation", "VP reaction", "Maltose fermentation", "Indole test"], c: 2 },
+    { q: "216- The most common non-sporing anaerobe isolated from clinical specimens is:", a: ["Veillonella parvula", "Peptostreptococcus magnus", "Fusobacterium nucleatum", "Bacteriodes fragilis"], c: 3 },
+    { q: "217- The toxigenicity of C.diphtheriae is due to :", a: ["Delta phage", "Lambda phage", "Gamma phage", "Beta phage"], c: 3 },
+    { q: "218- The source of the streptokinase used for thrombolytic therapy is:", a: ["S.pyogenes", "S.agalactiae", "S.mutans", "S.equisimilis"], c: 3 },
+    { q: "219- The HLA seen predominantly in patients with tuberculoid type of reaction is :", a: ["HLA-MT1", "HLADQ1", "HLA-DR2", "HLA-DR4"], c: 2 },
+    { q: "220- The arrangement of staphylococci is:", a: ["In chains", "In pairs", "In clusters", "None of the above"], c: 2 },
+    { q: "221- The Corynebacterium species causing prosthetic valve endocarditis is :", a: ["C.xerosis", "C.ulcerans", "C.jeikeium", "C.hofmanni"], c: 2 },
+    { q: "222- The virulence factors for N.gonorrhoeae includes all EXCEPT:", a: ["Pili", "IgAl protease", "Outer membrane proteins", "M protein"], c: 3 },
+    { q: "223- Erythrasma is caused by :", a: ["C.xerosis", "Culcerans", "C.minutissimum", "C.pseudotuberculosis"], c: 2 },
+    { q: "224- Skin lesions in meningococcal meningitis is due to :", a: ["Direct vascular damage", "Allergic reaction", "Endotoxin", "Exotoxin"], c: 2 }
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>
