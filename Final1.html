@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Final Exam - Batch 1</title>
+    <style>
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; background-color: #f6f8fa; color: #24292e; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e1e4e8; }
+        .question-card { background: white; border: 1px solid #e1e4e8; border-radius: 6px; padding: 20px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 10px; }
+        .options { list-style: none; padding: 0; }
+        .option { padding: 10px; border: 1px solid #d1d5da; border-radius: 4px; margin-bottom: 5px; cursor: pointer; transition: background 0.2s; }
+        .option:hover { background-color: #f6f8fa; }
+        .correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .disabled { pointer-events: none; opacity: 0.6; }
+        .status-bar { position: sticky; top: 0; background: #24292e; color: white; padding: 10px; text-align: center; font-weight: bold; z-index: 1000; border-radius: 0 0 6px 6px; }
+    </style>
+</head>
+<body>
+
+<div class="status-bar">Score: <span id="score">0</span> / 100</div>
+
+<div class="header">
+    <h1>Microbiology Final Exam - Batch 1</h1>
+    <p>Questions 1 to 100</p>
+</div>
+
+<div id="quiz-container"></div>
+
+<script>
+const questions = [
+    { q: "1- The condition, when bacteria multiply in the blood, is called:", a: ["Bacteremia", "Septicopyomia", "Virusemia", "Sepsis"], c: 3 },
+    { q: "2- Relapse is called:", a: ["Disease caused by infection with a new pathogen in the background of an unfinished initial infectious disease", "Disease caused by human infection with the same pathogen before recovery", "Return of the disease due to remaining pathogens in the body", "Disease that occurs after a previous infection with a second infection with the same pathogen"], c: 2 },
+    { q: "3- What statement about the properties of exotoxins is incorrect:", a: ["By chemical nature - proteins", "Highly toxic", "Possess organotropicity", "Low in toxicity"], c: 3 },
+    { q: "4- What statement about the properties of endotoxins is incorrect:", a: ["On the chemical structure - lipopolysaccharides", "Thermostable", "Less toxic", "Highly toxic"], c: 3 },
+    { q: "5- Reinfection is called:", a: ["Return of the disease due to remaining pathogens in the body", "Disease caused by human infection with the same pathogen before recovery", "Disease caused by infection with a new pathogen in the background of an unfinished initial infectious disease", "Disease that occurs after a previous infection with a second infection with the same pathogen"], c: 3 },
+    { q: "6- Vaccines made from live microbes or viruses that have lost virulence factors but retained immunogenic properties:", a: ["Molecular vaccines", "Anatoxins", "Attenuated vaccines", "Killed vaccines"], c: 2 },
+    { q: "7- Preparations named immunoglobulins are used for:", a: ["Diagnosis of infectious diseases", "Vaccine production", "Treatment of infectious diseases", "Specific prevention of infectious diseases"], c: 2 },
+    { q: "8- Antitoxins (antitoxic sera) are used for:", a: ["For the prevention of fungal infections", "For the prevention of infections, caused by protozoa", "For the treatment of bacterial infections", "For the treatment of viral infections"], c: 2 },
+    { q: "9- Toxoids are prepared of:", a: ["inactivated cultures of microbes", "endotoxins of bacteria", "exotoxins of bacteria in non-toxic form", "attenuated strains of microbes"], c: 2 },
+    { q: "10- Vaccines are used for:", a: ["For the prevention of allergic reactions", "For the diagnosis of infectious diseases", "For the treatment of food poisonings", "For the specific prevention of infectious diseases"], c: 3 },
+    { q: "11- Morphological and staining properties of the causative agent of anthrax DO NOT include:", a: ["Gram-positive rods arranged in a chain", "Formation of a capsule", "Forms a centrally located spore whose diameter does not exceed the diameter of the cell", "Motile by flagella"], c: 3 },
+    { q: "12- The reservoir of the causative agent of anthrax is:", a: ["Cattle", "A sick person", "Birds", "Bloodsucking insects"], c: 0 },
+    { q: "13- Antigens of the causative agent of anthrax in products from contaminated raw materials (fur, leather, wool), cadaveric material are detected by the test:", a: ["Wasserman", "Ascoli", "Vidal", "Haddelson"], c: 1 },
+    { q: "14- Transmission of anthrax causative agent is NOT carried out by:", a: ["Sexual Way", "Food", "Contact", "Airborne dust"], c: 0 },
+    { q: "15- Morphological and staining properties of causative agent of anthrax include:", a: ["Gram-negative diplococci of the bean-shaped form", "Gram-positive rods", "Gram-negative rods", "Gram-positive cocci"], c: 1 },
+    { q: "16- Syphilis is characterized by the following features, except:", a: ["Long lasting resistant immunity", "Disease has 3 stages", "The formation of 'hard chancre'", "High contagiousness"], c: 0 },
+    { q: "17- The main factor of pathogenicity of gonococci is:", a: ["Erythrogenin", "Endotoxin", "Leucocidin", "Exfoliatin"], c: 1 },
+    { q: "18- Morphological and staining properties of gonococci include:", a: ["Gram-negative diplococci of the bean-shaped form", "Spore formation", "Gram-positive diplococci of the lanceolate form", "Mobility"], c: 0 },
+    { q: "19- Morphological and staining properties of the causative agent of syphilis:", a: ["Movable convoluted spiral-shaped bacteria with regular curls. According to Romanovsky-Giemsa stained in pale pink color", "Spiral bacteria with large irregular curls and with pointed ends. They are painted by Romanovsky-Giemsa in blue-violet color", "Gram-negative, convoluted bacteria, arranged in groups in the form of 'flying seagull wings'", "Motile helical bacteria with small primary and large secondary curls and curved ends in the form of the letter 'C' and 'S'"], c: 0 },
+    { q: "20- The causative agents of tuberculosis grow on the medium:", a: ["MacConkey", "Robertson's cooked meat medium", "Lowenstein-Jensen", "Bordet Gengou", "Nutrient agar"], c: 2 },
+    { q: "21- For the treatment of diphtheria is used:", a: ["Toxoid", "Sulfonamides", "Anti-toxic serum", "Specific bacteriophage"], c: 2 },
+    { q: "22- The main pathogenicity factor of the causative agent of diphtheria is:", a: ["Exotoxin", "Flagella", "Endotoxin", "Capsule"], c: 0 },
+    { q: "23- For the treatment of tuberculosis, the following drugs are used, except:", a: ["Ethambutol", "Rifampicin", "Isoniazid", "Metronidazole", "Streptomycin"], c: 3 },
+    { q: "24- Lactose fermentation is typical for:", a: ["E. coli", "S. typhimurium", "S.typhi", "Sh.flexneri"], c: 0 },
+    { q: "25- H-antigen of enterobacteriaceae is a part of:", a: ["plasma membrane", "flagella", "cell wall", "saw", "capsules"], c: 1 },
+    { q: "26- Pathogenic escherichias are differentiated from opportunistic:", a: ["by antigenic properties", "by the ability to ferment lactose", "by color of colonies on Endo medium", "by the ability to ferment glucose"], c: 0 },
+    { q: "27- To diagnose diseases caused by pathogenic E. coli, the inoculation of feces is carried out:", a: ["on salt agar", "on blood agar", "MacConkey's medium", "on alkaline agar", "on bismuth sulfite agar"], c: 2 },
+    { q: "28- For the treatment of botulism is used:", a: ["Specific bacteriophages", "Isoniazid", "Pyrazinamide", "Anti-toxic serum", "Toxoid"], c: 3 },
+    { q: "29- Cultural properties of the causative agent of botulism:", a: ["Aerobic, grows on basal nutrient media", "Strict aerobic. Grows on blood glucose agar", "Strict aerobic. Grows on MacConkey medium", "Strict anaerobic, grows on RCM broth", "Aerobic, grows on simple nutrient media"], c: 3 },
+    { q: "30- The causative agent of botulism releases the following toxin:", a: ["Dermonecrotoxin", "Neurotoxin", "Hemolysin", "Leukocidin", "Enterotoxin"], c: 1 },
+    { q: "31- For specific prevention of botulism, the following is used:", a: ["Bacteriophage", "Killed vaccine", "Immunoglobulin", "Toxoid", "Live vaccine"], c: 3 },
+    { q: "32- The causative agents of influenza epidemics are more often influenza viruses:", a: ["Type A", "Type B", "Type E", "Type D"], c: 0 },
+    { q: "33- For the prophylaxis of influenza, the following drugs are used, except:", a: ["Molecular vaccines", "Live vaccines", "Toxoid", "Inactivated vaccines"], c: 2 },
+    { q: "34- For the treatment of influenza, the following drugs are used, except:", a: ["Metronidazole", "Rimantadin", "Interferon", "Ozeltamivir", "Immunoglobulin"], c: 0 },
+    { q: "35- Possible outcomes of the disease with hepatitis B (all are true, except):", a: ["infertility", "liver carcinoma", "cirrhosis", "recovery with the formation of lifelong immunity", "chronic active hepatitis"], c: 0 },
+    { q: "36- Routes of transmission for hepatitis C (all are true except):", a: ["tatoo procedure", "by infected water", "blood transfusion", "from mother to fetus", "by sexual contact"], c: 1 },
+    { q: "37- Routes of transmission for hepatitis A (all are true, except):", a: ["with infected water", "through household items of the patient", "through dirty hands", "with infected foods", "from mother to fetus"], c: 4 },
+    { q: "38- Hepatitis E is most unfavorable in:", a: ["elderly patients", "pregnant women", "young children", "school children and adolescents"], c: 1 },
+    { q: "39- Prevention of hepatitis D:", a: ["compliance with the rules of personal and public hygiene", "interferon", "hepatitis B vaccination", "hepatitis A vaccination", "immunoglobulin"], c: 2 },
+    { q: "40- In case of dermatomycoses, the material for research is not:", a: ["nails", "hair", "sputum", "skin scrapings"], c: 2 },
+    { q: "41- The causative agents of dermatomycoses are the following, with the exception of:", a: ["Trichophyton rubrum", "Microsporum canis", "Histoplasma capsulatum", "Epidermophyton floccosum"], c: 2 },
+    { q: "42- The clinical manifestations of candidiasis include the following, with the exception of:", a: ["Conjunctivitis", "Systemic candidiasis", "Superficial candidiasis", "Visceral candidiasis"], c: 0 },
+    { q: "43- When examining washings from the hands of personnel, inoculation is performed on the following medium:", a: ["Kessler", "Sabouraud's agar", "0.1% peptone water", "salt solution"], c: 0 },
+    { q: "44- To determine the total number of bacteria, air is inoculated in volume:", a: ["150 l", "200 l", "250 l", "100 l"], c: 3 },
+    { q: "45- For the detection of molds and yeasts-like fungi in purified water Saburo's medium is incubated at a temperature:", a: ["15 °C", "30 °C", "22 °C", "37 °C"], c: 2 },
+    { q: "46- Spiral bacteria belong to genus:", a: ["Neisseria", "Staphylococcus", "Rickettsia", "Borrelia"], c: 3 },
+    { q: "47- For the staining of acid-fast bacteria, the method is used:", a: ["Ziehl–Neelsen method", "Neisser method", "Gram method", "Giemsa method"], c: 0 },
+    { q: "48- Capsule of bacteria is detected by:", a: ["Burry Gins method", "Gram method", "Giemsa method", "Ziehl–Neelsen method"], c: 0 },
+    { q: "49- Dimorphic fungi are able to form different structures:", a: ["At presence of UV rays", "At presence of oxygen", "At different temperature", "At presences of chemicals"], c: 2 },
+    { q: "50- Morphology of Entamoeba:", a: ["Has a pear-shaped form, 4 anterior flagella", "Has a pear-like shape, 2 nuclei.", "Has the shape of an orange slice, 1 nucleus", "Non certain shape, 1 nucleus, cyst forming"], c: 3 },
+    { q: "51- Under a microscope, you found cocci shape bacteria, arrangemeted in chain:", a: ["Streptococcus", "Staphylococcus", "Escherichia", "Mycoplasma"], c: 0 },
+    { q: "52- Naked viruses have no:", a: ["Capsid", "Envelope", "Nucleic acid", "Spikes"], c: 1 },
+    { q: "53- Prions are presented:", a: ["Polysaccharides", "DNA", "Proteins", "RNA"], c: 2 },
+    { q: "54- The color of Gram-negative bacteria is:", a: ["Violet", "Blue", "Yellow", "Red"], c: 3 },
+    { q: "55- The glycoprotein structure of the virus has:", a: ["Replication enzymes", "Capsid", "Envelope", "Spikes"], c: 3 },
+    { q: "56- Which is an obligate intracellular organism?", a: ["Clostridium", "Campylobacter", "Chlamydia", "Borrelia"], c: 2 },
+    { q: "57- Gram-positive bacteria include pathogens:", a: ["Shigella", "Escherichia", "Bacillus", "Salmonella"], c: 2 },
+    { q: "58- Bacteria having flagella:", a: ["Staphylococcus", "Streptococcus", "Neisseria", "Vibrio"], c: 3 },
+    { q: "59- Filamentous bacteria include:", a: ["Mycobacterium", "Campylobacter", "Neisseria", "Vibrio"], c: 0 },
+    { q: "60- Acid-fast bacteria are:", a: ["Mycobacteria", "Mycoplasma", "Staphylococci", "Rickettsia"], c: 0 },
+    { q: "61- Under a microscope, you found bacteria with rod shape, rounded ends, gram negative:", a: ["Staphylococcus", "Streptococcus", "Mycoplasma", "Escherichia"], c: 3 },
+    { q: "62- The characteristics of viruses includes:", a: ["Infectious 'protein particles'", "Reproduce outside the living cell", "Single-celled life forms", "Not able to reproduce outside a living cell"], c: 3 },
+    { q: "63- Under the microscope, you found cocci bean-shaped, stained in red color:", a: ["Klebsiella", "Gonococcus", "Streptococcus", "Bacillus"], c: 1 },
+    { q: "64- Bacteria that form spores belong to genus:", a: ["Mycoplasma", "Streptococcus", "Escherichia", "Clostridium"], c: 3 },
+    { q: "65- Bacteria having a spherical shape:", a: ["Klebsiella", "Vibrio", "Mycobacterium", "Gonococci"], c: 3 },
+    { q: "66- Property of Trichomonas:", a: ["Has the shape of an orange slice, 1 nucleus", "Has a pear-like shape, 2 nuclei.", "Rod-shaped, 1 nucleus, 1 flagella", "Has a pear-shaped form, central nucleous, 4 anterior flagella"], c: 3 },
+    { q: "67- Differential-diagnostic media are:", a: ["Used for cultivation of microbes demanding to nutrient media", "Media that allow to distinguish some species of bacteria from others by their enzymatic activity.", "Inhibiting the growth of certain microbes and promoting the growth of others", "Containing pieces of internal organs and tissues of an animal or human."], c: 1 },
+    { q: "68- Saccharolytic properties of bacteria are usually determined on a medium:", a: ["Robertson’s Cooked Meat broth", "Nutrient agar", "Blood agar", "Hiss media"], c: 3 },
+    { q: "69- Bactriophages are not used for:", a: ["Treatment of bacterial infections", "Determination of species of bacteria", "Determination of the phage type of bacteria", "Treatment of viral infections"], c: 3 },
+    { q: "70- Selective nutrient media are media:", a: ["Designed to isolate certain types of bacteria, while the growth of other types of bacteria is suspended or slowed down", "Designed for the cultivation of whimsical bacteria that need a large number of nutrients", "Used to study the biochemical properties of bacteria", "Designed to isolate most species of bacteria"], c: 0 },
+    { q: "71- In a healthy person, the following organs do not contain bacteria:", a: ["Lymph nodes", "Stomach", "Eyes", "Mouth"], c: 0 },
+    { q: "72- Transformation is carried out with the help of:", a: ["Temperate bacteriophage", "Fertility factor (F plasmid)", "Mutation", "DNA of donor cell"], c: 3 },
+    { q: "73- Methods of cultivation of obligate aerobic bacteria:", a: ["In the presence of CO2", "In the presence of oxygen", "In the presence of a small amount of oxygen", "In the absence of oxygen"], c: 1 },
+    { q: "74- Proteolytic properties of bacteria - is ability:", a: ["To ferment sugars", "To produce a oxidase", "Break down proteins with indole and hydrogen sulphide production", "To produce a catalase"], c: 2 },
+    { q: "75- Plasmid - multidrug resistance factor of bacteria:", a: ["Col-plasmid", "F-plasmid", "R-plasmid", "Ent plasmid"], c: 2 },
+    { q: "76- To differential-diagnostic media include the following , except:", a: ["Peptone water", "Robertson’s Cooked Meat broth", "MacConkey agar", "Hiss with sugars"], c: 1 },
+    { q: "77- Proteolytic properties of bacteria are usually determined on media:", a: ["MacConkey agar", "Meat peptone broth", "Peptone water", "Robertson’s cooked meat medium"], c: 3 },
+    { q: "78- Bacteriophages are not isolated from:", a: ["Soil", "Sterile objects", "Sewage", "Material from the patient"], c: 1 },
+    { q: "79- Aseptic is:", a: ["Destruction measures of microbes in the pathological focus, wound, etc.", "Complete destruction of microbes from the object", "Prevention of microbial contamination (sterilization of medicines, bandage, surgical tools, air at operation theatre, test tubes, media and so on)", "Destruction and removal of infectious agents from environmental objects"], c: 2 },
+    { q: "80- Which method of sterilization is not physical:", a: ["gas sterilization", "Gamma-rays sterilization", "sterilization in flame", "sterilization with ultraviolet rays"], c: 0 },
+    { q: "81- The positive role of the normal microbial flora of a human beings includes the following, except:", a: ["Participates in the formation of lymphoid tissue", "Promotes digestion", "It has antagonistic properties against pathogenic microorganisms", "Protects the body from the effects of radiation"], c: 3 },
+    { q: "82- Property of prophage:", a: ["It is used for identification of bacteria", "Is used for phage typing of bacteria", "Used for treatment", "It is included in the genome of a bacterial"], c: 3 },
+    { q: "83- Genotypic variability is not observed as a result of:", a: ["mutations", "transduction", "loss of cell wall under the influence of penicillin", "transformation"], c: 2 },
+    { q: "84- Methods of cultivation of obligate anaerobic bacteria:", a: ["In the presence of a small amount of oxygen", "In the presence of oxygen", "In the absence of oxygen", "In the presence of CO2"], c: 2 },
+    { q: "85- Transduction is carried out with the help of:", a: ["DNA of donor cell", "Fertility factor (F plasmid)", "Temperate bacteriophage", "Mutation"], c: 2 },
+    { q: "86- Special nutrient media are media:", a: ["Used to study the biochemical properties of bacteria", "Designed to isolate certain types of bacteria, while the growth of other types of bacteria is suspended or slowed down", "Designed to isolate most species of bacteria", "Are used to obtain the growth of fastidious bacteria that do not grow or grow very poorly on basal nutrient media."], c: 3 },
+    { q: "87- For the treatment of intestinal dysbiosis, preparations from the following microbes are used, excep:", a: ["Saccharomyces", "Staphylococcus", "Bifidobacterium", "Lactobactillus"], c: 1 },
+    { q: "88- Mutations do not arise under the action of:", a: ["Excess of nutrients", "Acrydine dyes", "Ultraviolet rays", "X-rays"], c: 0 },
+    { q: "89- Spores of bacteria are destroyed by using of:", a: ["prolonged drying", "autoclave", "ultraviolet rays", "toxic gases"], c: 1 },
+    { q: "90- What objects are sterilized in a Pasteur oven by using of dry heat:", a: ["Glass and metal objects", "waste material (cultures of microbes, material from the patient, etc.)", "disposable syringes", "basic nutrient media"], c: 0 },
+    { q: "91- Saccharolytic properties of bacteria is ability:", a: ["Grow on liquid nutrient medium with sugars, forming in it acidic and gaseous products", "Allocate hydrogen sulphide", "Produce indole", "Liquefy gelatin"], c: 0 },
+    { q: "92- An antibiotic that interferes with the function of the cell membrane:", a: ["tetracycline", "streptomycin", "rifampicin", "nystatin"], c: 3 },
+    { q: "93- What statement about the properties of exotoxins is incorrect:", a: ["Highly toxic", "Possess organotropicity", "By chemical nature - proteins", "Low in toxicity"], c: 3 },
+    { q: "94- What antibiotic is not considered an aminoglycoside:", a: ["gentamycin", "erythromycin", "kanamycin", "streptomycin"], c: 1 },
+    { q: "95- Vaccines made from live microbes that have lost virulence factors but retained immunogenic properties:", a: ["Anatoxins", "Molecular vaccines", "Killed vaccines", "Attenuated vaccines"], c: 3 },
+    { q: "96- Vaccines are used for:", a: ["For the diagnosis of infectious diseases", "For the treatment of dermatomycosis", "For the prevention of infectious diseases", "For the treatment of foodborne diseases"], c: 2 },
+    { q: "97- To prevent the emergence of drug-resistant strains of microorganisms, it is necessary:", a: ["rational antibiotic therapy", "chemical modification of known antibiotics with protected active groups", "all of the above", "finding new chemotherapeutic drugs with a different mechanism of action"], c: 2 },
+    { q: "98- The antibiotics acting on the synthesis of nucleic acids in the cell include:", a: ["amphotericin B", "rifampicin", "erythromycin", "gentamycin G"], c: 1 },
+    { q: "99- The group of macrolides include:", a: ["tobramycin", "griseofulvin", "levomycetin", "azithromycin"], c: 3 },
+    { q: "100- The resistance of bacteria to antibiotics is due to the presence of:", a: ["Ent-plasmas", "Col-plasmids", "Tox-plasmids", "R-plasmids"], c: 3 }
+];
+
+let score = 0;
+const container = document.getElementById('quiz-container');
+
+questions.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerText = q.q;
+    card.appendChild(title);
+    
+    const ul = document.createElement('ul');
+    ul.className = 'options';
+    
+    q.a.forEach((opt, i) => {
+        const li = document.createElement('li');
+        li.className = 'option';
+        li.innerText = opt;
+        li.onclick = () => checkAnswer(li, i, q.c, ul);
+        ul.appendChild(li);
+    });
+    
+    card.appendChild(ul);
+    container.appendChild(card);
+});
+
+function checkAnswer(selectedLi, selectedIndex, correctIndex, ul) {
+    if (ul.classList.contains('answered')) return;
+    ul.classList.add('answered');
+    
+    const options = ul.children;
+    for (let li of options) {
+        li.classList.add('disabled');
+    }
+    
+    if (selectedIndex === correctIndex) {
+        selectedLi.classList.add('correct');
+        score++;
+    } else {
+        selectedLi.classList.add('incorrect');
+        options[correctIndex].classList.add('correct');
+    }
+    
+    document.getElementById('score').innerText = score;
+}
+</script>
+
+</body>
+</html>
